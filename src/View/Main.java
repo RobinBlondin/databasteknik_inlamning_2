@@ -1,11 +1,13 @@
 package View;
 
-import Controller.DataHandler;
+import Controller.Repository;
 
 public class Main {
     public static void main(String[] args) {
-        DataHandler dh = new DataHandler();
-        System.out.println(dh.getColors().getFirst().getName());
+        Repository dh = new Repository();
 
+        System.out.println(dh.getOrders().size());
+        dh.addToCart(1, 16, 3);
+        System.out.println(dh.getOrders().size());
     }
 }
