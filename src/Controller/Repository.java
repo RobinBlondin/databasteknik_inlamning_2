@@ -2,15 +2,12 @@ package Controller;
 
 import Model.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-public class DataHandler {
-    Properties prop;
+public class Repository {
+    private final DBHelper dh;
     List<Brand> brands;
     List<Color> colors;
     List<Size> sizes;
@@ -22,13 +19,8 @@ public class DataHandler {
     List<ShoppingCart> shoppingCart;
     List<CategoryMap> categoryMaps;
 
-    public DataHandler() {
-        try {
-            prop = new Properties();
-            prop.load(new FileInputStream("properties/settings.properties"));
-        } catch (IOException e) {
-            System.out.println("Problem loading properties");
-        }
+    public Repository() {
+        dh = new DBHelper();
         brands = loadBrands();
         colors = loadColors();
         sizes = loadSizes();
@@ -43,9 +35,9 @@ public class DataHandler {
 
     public List<Brand> loadBrands() {
         try(
-            Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
-            PreparedStatement pr = con.prepareStatement("SELECT * FROM brand");
-            ResultSet rs = pr.executeQuery()
+                Connection con = dh.getConnection();
+                PreparedStatement pr = con.prepareStatement("SELECT * FROM brand");
+                ResultSet rs = pr.executeQuery()
         ) {
             List<Brand> list = new ArrayList<>();
             while(rs.next()) {
@@ -65,7 +57,7 @@ public class DataHandler {
 
     public List<Category> loadCategories() {
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM category");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -84,7 +76,7 @@ public class DataHandler {
 
     public List<Color> loadColors() {
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM color");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -104,7 +96,7 @@ public class DataHandler {
 
     public List<Size> loadSizes() {
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM size");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -130,7 +122,7 @@ public class DataHandler {
 
     public List<Customer> loadCustomers() {
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM customer");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -160,7 +152,7 @@ public class DataHandler {
         List<Shoe> list = new ArrayList<>();
 
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM shoe");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -189,7 +181,7 @@ public class DataHandler {
         List<OrderEntry> list = new ArrayList<>();
 
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM order_entry");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -213,7 +205,7 @@ public class DataHandler {
         List<Stock> list = new ArrayList<>();
 
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM stock");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -237,7 +229,7 @@ public class DataHandler {
         List<ShoppingCart> list = new ArrayList<>();
 
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM shopping_cart");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -262,7 +254,7 @@ public class DataHandler {
         List<CategoryMap> list = new ArrayList<>();
 
         try(
-                Connection con = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"), prop.getProperty("password"));
+                Connection con = dh.getConnection();
                 PreparedStatement pr = con.prepareStatement("SELECT * FROM category_map");
                 ResultSet rs = pr.executeQuery()
         ) {
@@ -280,6 +272,26 @@ public class DataHandler {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public void addToCart(int customerId, int orderId, int shoeId) {
+        try(
+                Connection con = dh.getConnection();
+                CallableStatement stmt = con.prepareCall("CALL addToCart(?, ?, ?)")
+        ) {
+            stmt.setInt(1, customerId);
+            stmt.setInt(2, orderId);
+            stmt.setInt(3, shoeId);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrorCode());
+        }
+        orders = loadOrders();
+        stockEntries = loadStockEntries();
+        shoppingCart = loadShoppingCart();
+
     }
 
     public List<Brand> getBrands() {
