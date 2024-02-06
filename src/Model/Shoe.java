@@ -67,4 +67,8 @@ public class Shoe {
     public void setSize(Size size) {
         this.size = size;
     }
+
+    public void printShoe() {
+        System.out.printf("%s, %s, %s, %d, %d\n", brand.getName(), model, color.getName(), size.getEu(), price);
+    }
 }
