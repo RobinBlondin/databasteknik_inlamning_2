@@ -32,11 +32,11 @@ public class OrderEntry {
         this.orderDate = orderDate;
     }
 
-    public Customer getCustomer_id() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer_id(Customer customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 }
