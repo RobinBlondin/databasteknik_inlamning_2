@@ -13,7 +13,7 @@ public class Reporter {
         rp = new Repository();
     }
 
-    public void filterShoes(String brand, String color, String size, String category) {
+    public List<String> filterShoes(String brand, String color, String size, String category) {
         List<String> list = new ArrayList<>();
 
         rp.getCategoryMaps().stream()
@@ -24,7 +24,9 @@ public class Reporter {
                 .map(CategoryMap::getShoe)
                 .collect(Collectors.toMap(Shoe::getId, a -> a, (existingShoe, newShoe) -> existingShoe))
                 .values()
-                .forEach(Shoe::printShoe);
+                .forEach(a -> list.add(a.printShoe()));
+
+        return list;
     }
 
     public void customerPurchases(String sizeStr, String color, String brand) {
