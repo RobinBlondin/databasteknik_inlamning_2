@@ -11,7 +11,8 @@ public class Main {
        //r.moneySpentByCustomer();
        //r.moneySpentPerCity();
        //r.mostSoldProducts();
-        r.filterShoes("vagabond", "brown", "", "");
+        //r.filterShoes("vagabond", "brown", "", "");
+        new MainFrame();
 
     }
 }
