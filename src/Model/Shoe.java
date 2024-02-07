@@ -69,6 +69,6 @@ public class Shoe {
     }
 
     public String printShoe() {
-        return String.format("%d, %s, %s, %s, %d, %d\n", brand.getName(), id, model, color.getName(), size.getEu(), price);
+        return String.format("%d, %s, %s, %s, %d, %d\n", id, brand.getName(), model, color.getName(), size.getEu(), price);
     }
 }
