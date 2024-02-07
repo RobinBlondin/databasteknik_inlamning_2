@@ -1,39 +1,34 @@
 package View;
 
 import Controller.Repository;
+import Model.*;
+import Model.Color;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class FilterPanel<T> extends JPanel {
     private Repository repo;
-    private JComboBox<String> brandBox;
-    private JComboBox<String> modelBox;
-    private JComboBox<String> colorBox;
-    private JComboBox<String> sizeBox;
-    private JComboBox<String> categoryBox;
-    private JLabel brandLabel;
-    private JLabel modelLabel;
-    private JLabel colorLabel;
-    private JLabel sizeLabel;
-    private JLabel priceLabel;
-    private JLabel emptyLabel;
 
     public FilterPanel(Repository repo) {
         this.repo = repo;
         StyleSettings style = StyleSettings.getInstance();
 
+        JComboBox<String> brandBox = new JComboBox<>();
+        JComboBox<String> modelBox = new JComboBox<>();
+        JComboBox<String> colorBox = new JComboBox<>();
+        JComboBox<String> sizeBox = new JComboBox<>();
+        JComboBox<String> categoryBox = new JComboBox<>();
 
-        brandBox = new JComboBox<>();
-        modelBox = new JComboBox<>();
-        colorBox = new JComboBox<>();
-        sizeBox = new JComboBox<>();
-        categoryBox = new JComboBox<>();
-        brandLabel = new JLabel("Brand");
-        modelLabel = new JLabel("Model");
-        colorLabel = new JLabel("Color");
-        sizeLabel = new JLabel("Size");
-        priceLabel = new JLabel("Price");
-        emptyLabel = new JLabel();
+        populateComboBoxes(brandBox, modelBox, colorBox, sizeBox, categoryBox);
+
+        JLabel brandLabel = new JLabel("Brand");
+        JLabel modelLabel = new JLabel("Model");
+        JLabel colorLabel = new JLabel("Color");
+        JLabel sizeLabel = new JLabel("Size");
+        JLabel priceLabel = new JLabel("Price");
+        JLabel emptyLabel = new JLabel();
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 75));
@@ -81,7 +76,6 @@ public class FilterPanel<T> extends JPanel {
         northPanel.add(categoryBox);
         northPanel.add(emptyLabel);
 
-
         JPanel southPanel = new JPanel();
         southPanel.setBackground(style.getBackgroundColor_LIGHT());
         southPanel.add(brandLabel);
@@ -93,5 +87,27 @@ public class FilterPanel<T> extends JPanel {
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(southPanel, BorderLayout.CENTER);
+    }
+
+    public void populateComboBoxes(JComboBox<String> brandBox, JComboBox<String> modelBox, JComboBox<String> colorBox, JComboBox<String> sizeBox, JComboBox<String> categoryBox) {
+        List<String> brandNames = repo.getBrands().stream().map(Brand::getName).toList();
+        brandBox.addItem("");
+        brandNames.forEach(brandBox::addItem);
+
+        List<String> modelNames = repo.getShoes().stream().map(Shoe::getModel).toList();
+        modelBox.addItem("");
+        modelNames.forEach(modelBox::addItem);
+
+        List<String> colorNames = repo.getColors().stream().map(Color::getName).toList();
+        colorBox.addItem("");
+        colorNames.forEach(colorBox::addItem);
+
+        List<String> sizes = repo.getSizes().stream().map(Size::getEu).map(String::valueOf).toList();
+        sizeBox.addItem("");
+        sizes.forEach(sizeBox::addItem);
+
+        List<String> categoryNames = repo.getCategories().stream().map(Category::getName).toList();
+        categoryBox.addItem("");
+        categoryNames.forEach(categoryBox::addItem);
     }
 }
