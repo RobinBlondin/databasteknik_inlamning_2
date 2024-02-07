@@ -87,7 +87,7 @@ public class Customer {
         this.password = password;
     }
 
-    public void printCustomer() {
-        System.out.printf("%s, %s, %s, %s, %s, %s\n", firstName, lastName, address, city, email, phone_number);
+    public String printCustomer() {
+        return String.format("%d, %s, %s, %s, %s, %s, %s\n", id, firstName, lastName, address, city, email, phone_number);
     }
 }
