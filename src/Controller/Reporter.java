@@ -13,11 +13,12 @@ public class Reporter {
         rp = new Repository();
     }
 
-    public List<String> filterShoes(String brand, String color, String size, String category) {
+    public List<String> filterShoes(String brand, String model, String color, String size, String category) {
         List<String> list = new ArrayList<>();
 
         rp.getCategoryMaps().stream()
                 .filter(a -> brand.isEmpty() || a.getShoe().getBrand().getName().contains(brand))
+                .filter(a -> model.isEmpty() || a.getShoe().getModel().contains(model))
                 .filter(a -> color.isEmpty() || a.getShoe().getColor().getName().contains(color))
                 .filter(a -> size.isEmpty() || a.getShoe().getSize().getEu() == Integer.parseInt(size))
                 .filter(a -> category.isEmpty() || a.getCategory().getName().contains(category))
