@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Repository<T> {
+public class Repository {
     private final DBHelper dh;
     List<Brand> brands;
     List<Color> colors;
@@ -292,11 +292,6 @@ public class Repository<T> {
         stockEntries = loadStockEntries();
         shoppingCart = loadShoppingCart();
 
-    }
-
-    public T findMatch(List<T> list, int comparison, Matcher<T> matcher) {
-
-        return list.stream().filter(a -> matcher.matches(a, comparison)).toList().getFirst();
     }
 
     public List<Brand> getBrands() {

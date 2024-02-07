@@ -33,11 +33,10 @@ public class Reporter {
     public void customerPurchases(String sizeStr, String color, String brand) {
         int size = Integer.parseInt(sizeStr);
 
-        rp.getShoppingCart().stream().filter(a ->
-                a.getShoe().getSize().getEu() == size &&
-                a.getShoe().getColor().getName().equals(color) &&
-                a.getShoe().getBrand().getName().equals(brand))
-                .toList().stream()
+        rp.getShoppingCart().stream()
+                .filter(a -> a.getShoe().getSize().getEu() == size)
+                .filter(a -> a.getShoe().getColor().getName().equals(color))
+                .filter(a -> a.getShoe().getBrand().getName().equals(brand))
                 .map(a -> a.getOrderEntry().getCustomer())
                 .toList()
                 .forEach(Customer::printCustomer);
@@ -70,7 +69,8 @@ public class Reporter {
 
     public void mostSoldProducts() {
         Map<String, Integer> map = new TreeMap<>();
-        rp.getShoppingCart().stream().collect(Collectors.groupingBy(a -> a.getShoe().getBrand().getName() + "," + a.getShoe().getModel()))
+        rp.getShoppingCart().stream()
+                .collect(Collectors.groupingBy(a -> a.getShoe().getBrand().getName() + "," + a.getShoe().getModel()))
                 .forEach((k, v) -> map.put(k, v.stream().map(ShoppingCart::getQuantity).mapToInt(a -> a).sorted().sum()));
 
         map.entrySet()

@@ -1,5 +1,7 @@
 package View;
 
+import Controller.Repository;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
@@ -12,13 +14,27 @@ public class ListLabel extends JPanel {
     private final JLabel sizeLabel;
     private final JLabel priceLabel;
     private final JComboBox dropButton;
+    private Repository repo;
 
-    public ListLabel(String brand, String model, String color, String size, String price, boolean needDropMenu) {
+    public ListLabel(int id, String brand, String model, String color, String size, String price, Repository repo, boolean needDropMenu) {
+        this.repo = repo;
         this.setLayout(new BorderLayout());
         this.setBackground(style.getBackgroundColor_LIGHT());
         this.setPreferredSize(new Dimension(800, 50));
         this.setMaximumSize(new Dimension(800, 50));
         this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+
+        JButton cartButton = new JButton();
+        cartButton.setFocusPainted(false);
+        cartButton.setBackground(style.getBackgroundColor_LIGHT());
+        ImageIcon cartIcon = new ImageIcon("images/cartIcon.png");
+        cartButton.setIcon(cartIcon);
+        cartButton.setPreferredSize(new Dimension(35, 35));
+        cartButton.setBorder(BorderFactory.createEmptyBorder());
+        cartButton.addActionListener(a -> {
+            repo.addToCart();
+        });
+        cartButton.setVisible(true);
 
         String [] options = {"NEW: Add to cart", "EXISTING: Add to cart"};
         brandLabel = new JLabel(brand);
@@ -28,15 +44,16 @@ public class ListLabel extends JPanel {
         priceLabel = new JLabel(price + ":-");
         JPanel centerPanel = new JPanel();
         JLabel emptyLabel = new JLabel();
-        dropButton = new JComboBox(options);
+        dropButton = new JComboBox<>(options);
 
-        centerPanel.setBackground(Color.WHITE);
+        centerPanel.setBackground(style.getBackgroundColor_LIGHT());
+        centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        brandLabel.setFont(style.getSmallFont());
-        modelLabel.setFont(style.getSmallFont());
-        colorLabel.setFont(style.getSmallFont());
-        sizeLabel.setFont(style.getSmallFont());
-        priceLabel.setFont(style.getSmallFont());
+        brandLabel.setFont(style.getMicroFont());
+        modelLabel.setFont(style.getMicroFont());
+        colorLabel.setFont(style.getMicroFont());
+        sizeLabel.setFont(style.getMicroFont());
+        priceLabel.setFont(style.getMicroFont());
 
         brandLabel.setPreferredSize(new Dimension(150, 50));
         modelLabel.setPreferredSize(new Dimension(175, 50));
@@ -50,6 +67,12 @@ public class ListLabel extends JPanel {
         colorLabel.setBackground(style.getBackgroundColor_LIGHT());
         sizeLabel.setBackground(style.getBackgroundColor_LIGHT());
         priceLabel.setBackground(style.getBackgroundColor_LIGHT());
+
+        brandLabel.setForeground(style.getTextColor_LIGHT());
+        modelLabel.setForeground(style.getTextColor_LIGHT());
+        colorLabel.setForeground(style.getTextColor_LIGHT());
+        sizeLabel.setForeground(style.getTextColor_LIGHT());
+        priceLabel.setForeground(style.getTextColor_LIGHT());
 
         brandLabel.setBorder(BorderFactory.createEmptyBorder());
         modelLabel.setBorder(BorderFactory.createEmptyBorder());
@@ -76,7 +99,7 @@ public class ListLabel extends JPanel {
         centerPanel.add(sizeLabel);
         centerPanel.add(priceLabel);
         if (needDropMenu) {
-            centerPanel.add(dropButton);
+            centerPanel.add(cartButton);
         } else {
             centerPanel.add(emptyLabel);
         }

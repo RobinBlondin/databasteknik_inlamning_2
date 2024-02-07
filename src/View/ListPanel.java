@@ -52,7 +52,7 @@ public class ListPanel extends JPanel {
         gridPanel.removeAll();
         for (String str : filteredList) {
             String[] arr = str.split(", ");
-            gridPanel.add(new ListLabel(arr[0], arr[1], arr[2], String.valueOf(arr[3]), String.valueOf(arr[4]), true));
+            gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], String.valueOf(arr[3]), String.valueOf(arr[4]), repo, true));
         }
         for (int i = filteredList.size(); i < MIN_ENTRIES; i++) {
             gridPanel.add(emptyPanel);

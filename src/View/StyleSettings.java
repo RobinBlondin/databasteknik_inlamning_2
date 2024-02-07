@@ -26,7 +26,7 @@ public class StyleSettings {
         bigFont = new Font("Sans Serif", Font.PLAIN, 35);
         mediumFont = new Font("Sans Serif", Font.PLAIN, 25);
         smallFont = new Font("Sans Serif", Font.PLAIN, 18);
-        microFont = new Font("Sans Serif", Font.PLAIN, 12);
+        microFont = new Font("Sans Serif", Font.PLAIN, 14);
         bigFontBold = new Font("Sans Serif", Font.BOLD, 35);
         mediumFontBold = new Font("Sans Serif", Font.BOLD, 25);
         smallFontBold = new Font("Sans Serif", Font.BOLD, 18);
