@@ -1,102 +1,101 @@
 package View;
 
+import Controller.Reporter;
+import Controller.Repository;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
+import java.util.List;
 
 public class ListPanel extends JPanel {
-    private StyleSettings style = StyleSettings.getInstance();
-    private final JLabel brandLabel;
-    private final JLabel modelLabel;
-    private final JLabel colorLabel;
-    private final JLabel sizeLabel;
-    private final JLabel priceLabel;
-    private final JComboBox dropButton;
 
-    public ListPanel(String brand, String model, String color, String size, String price) {
+    private final int MIN_ENTRIES = 12;
+    private final JPanel gridPanel;
+    private final JPanel emptyPanel;
+    private final MainFrame mainFrame;
+    private final Reporter reporter;
+    private final Repository repo;
+    private List<String> filteredList;
+
+    public ListPanel(MainFrame mainFrame, Reporter reporter, Repository repo) {
+        StyleSettings style = StyleSettings.getInstance();
+        this.mainFrame = mainFrame;
+        this.reporter = reporter;
+        this.repo = repo;
+
+        filteredList = reporter.filterShoes("", "", "", "", "");
         this.setLayout(new BorderLayout());
-        this.setBackground(style.getBackgroundColor_LIGHT());
-        this.setPreferredSize(new Dimension(800, 50));
-        this.setMaximumSize(new Dimension(800, 50));
-        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+        this.setBackground(Color.WHITE);
+        gridPanel = new JPanel();
+        gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.PAGE_AXIS));
+        gridPanel.setBorder(BorderFactory.createEmptyBorder());
+        gridPanel.setBackground(style.getBackgroundColor_LIGHT());
+        
+        emptyPanel = new JPanel();
+        emptyPanel.setBackground(style.getBackgroundColor_LIGHT());
+        emptyPanel.setPreferredSize(new Dimension(800, 50));
+        emptyPanel.setBorder(BorderFactory.createEmptyBorder());
+        emptyPanel.setVisible(true);
 
-        String [] options = {"NEW: Add to cart", "EXISTING: Add to cart"};
-        brandLabel = new JLabel(brand);
-        modelLabel = new JLabel(model);
-        colorLabel = new JLabel(color);
-        sizeLabel = new JLabel(size);
-        priceLabel = new JLabel(price + ":-");
-        JPanel centerPanel = new JPanel();
-        JLabel emptyLabel = new JLabel();
-        dropButton = new JComboBox(options);
+        refresh();
 
-        centerPanel.setBackground(Color.WHITE);
+        JScrollPane scrollPane = new JScrollPane(gridPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        brandLabel.setFont(style.getSmallFont());
-        modelLabel.setFont(style.getSmallFont());
-        colorLabel.setFont(style.getSmallFont());
-        sizeLabel.setFont(style.getSmallFont());
-        priceLabel.setFont(style.getSmallFont());
+        scrollPane.setBackground(style.getBackgroundColor_LIGHT());
+        add(scrollPane, BorderLayout.CENTER);
+        setVisible(true);
+    }
 
-        brandLabel.setPreferredSize(new Dimension(150, 50));
-        modelLabel.setPreferredSize(new Dimension(175, 50));
-        colorLabel.setPreferredSize(new Dimension(100, 50));
-        sizeLabel.setPreferredSize(new Dimension(50, 50));
-        priceLabel.setPreferredSize(new Dimension(100, 50));
-        dropButton.setPreferredSize(new Dimension(175, 50));
+    public void refresh() {
+        gridPanel.removeAll();
+        for (String str : filteredList) {
+            String[] arr = str.split(", ");
+            gridPanel.add(new ListLabel(arr[0], arr[1], arr[2], String.valueOf(arr[3]), String.valueOf(arr[4]), true));
+        }
+        for (int i = filteredList.size(); i < MIN_ENTRIES; i++) {
+            gridPanel.add(emptyPanel);
+        }
+        gridPanel.revalidate();
+        gridPanel.repaint();
+    }
 
-        brandLabel.setBackground(style.getBackgroundColor_LIGHT());
-        modelLabel.setBackground(style.getBackgroundColor_LIGHT());
-        colorLabel.setBackground(style.getBackgroundColor_LIGHT());
-        sizeLabel.setBackground(style.getBackgroundColor_LIGHT());
-        priceLabel.setBackground(style.getBackgroundColor_LIGHT());
+    public void addToUI(Component component) {
+        gridPanel.add(component);
+        this.add(component);
+        this.revalidate();
+        this.repaint();
+    }
 
-        brandLabel.setBorder(BorderFactory.createEmptyBorder());
-        modelLabel.setBorder(BorderFactory.createEmptyBorder());
-        colorLabel.setBorder(BorderFactory.createEmptyBorder());
-        sizeLabel.setBorder(BorderFactory.createEmptyBorder());
-        priceLabel.setBorder(BorderFactory.createEmptyBorder());
-
-        dropButton.setFocusable(true);
-        dropButton.setEditable(false);
-        dropButton.setBackground(style.getTextColor_WHITE());
-        dropButton.setBorder(BorderFactory.createEmptyBorder());
-        dropButton.addActionListener(e -> {
-            if(Objects.equals(dropButton.getSelectedItem(), "NEW: Add to cart")) {
-                //TODO
-            } else if (Objects.equals(dropButton.getSelectedItem(), "EXISTING: Add to cart")) {
-                //TODO
+    public void removeFromUI(String platform, String userName) {
+        for (Component component : gridPanel.getComponents()) {
+            if (component instanceof ListLabel listLabel) {
+                if (listLabel.getBrandText().equalsIgnoreCase(platform) && listLabel.getModelText().equalsIgnoreCase(userName)) {
+                    System.out.println("Removing: " + platform + " " + userName);
+                    gridPanel.remove(component);
+                    this.remove(component);
+                    this.revalidate();
+                    this.repaint();
+                    return;
+                }
             }
-        });
-        dropButton.setVisible(true);
-
-        centerPanel.add(brandLabel);
-        centerPanel.add(modelLabel);
-        centerPanel.add(colorLabel);
-        centerPanel.add(sizeLabel);
-        centerPanel.add(priceLabel);
-        centerPanel.add(dropButton);
-
-        add(emptyLabel, BorderLayout.WEST);
-        add(centerPanel, BorderLayout.CENTER);
-        add(emptyLabel, BorderLayout.EAST);
-        this.setVisible(true);
+        }
     }
 
-    public String getBrandText() {
-        return brandLabel.getText();
-    }
-    public String getModelText() {
-        return modelLabel.getText();
-    }
+    /*public void filter(String brand, String model, String ) {
+        gridPanel.removeAll();
 
-    public String getColorText() {
-        return modelLabel.getText();
-    }
-    public String getSizeText() {
-        return modelLabel.getText();
-    }
-    public String getPriceText() {
-        return modelLabel.getText();
-    }
+        for (Password entry : passwordManager.getPasswordEntries()) {
+            if (entry.getPlatform().toLowerCase().contains(filter) || entry.getUserName().toLowerCase().contains(filter)) {
+                gridPanel.add(new ListPanel(entry.getPlatform(), entry.getUserName(), entry.getPassword(), homePage));
+            }
+        }
+        for (int i = passwordManager.getPasswordEntries().size(); i < MIN_ENTRIES; i++) {
+            gridPanel.add(new JPanel());
+        }
+        gridPanel.revalidate();
+        gridPanel.repaint();
+    }*/
 }
+

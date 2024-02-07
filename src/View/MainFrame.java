@@ -10,12 +10,12 @@ public class MainFrame extends JFrame {
     private final Reporter reporter;
     private final Repository repo;
 
-    private final ScrollableGridLayout scrollableGridLayout;
+    private final ListPanel listPanel;
 
     public MainFrame() {
         reporter = new Reporter();
         repo = new Repository();
-        scrollableGridLayout = new ScrollableGridLayout(this, reporter, repo);
+        listPanel = new ListPanel(this, reporter, repo);
 
         StyleSettings style = StyleSettings.getInstance();
         this.setLayout(new BorderLayout());
@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(sidePanel, BorderLayout.WEST);
-        this.add(scrollableGridLayout, BorderLayout.CENTER);
+        this.add(listPanel, BorderLayout.CENTER);
         this.setVisible(true);
 
 
