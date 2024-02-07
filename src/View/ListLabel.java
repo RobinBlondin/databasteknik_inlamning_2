@@ -10,18 +10,13 @@ public class ListLabel extends JPanel {
     private StyleSettings style = StyleSettings.getInstance();
     private final JLabel brandLabel;
     private final JLabel modelLabel;
-    private final JLabel colorLabel;
-    private final JLabel sizeLabel;
-    private final JLabel priceLabel;
-    private final JComboBox dropButton;
-    private Repository repo;
+    private final JComboBox<String> dropButton;
 
     public ListLabel(int id, String brand, String model, String color, String size, String price, Repository repo, boolean needDropMenu) {
-        this.repo = repo;
         this.setLayout(new BorderLayout());
         this.setBackground(style.getBackgroundColor_LIGHT());
-        this.setPreferredSize(new Dimension(800, 50));
-        this.setMaximumSize(new Dimension(800, 50));
+        this.setPreferredSize(new Dimension(600, 50));
+        this.setMaximumSize(new Dimension(600, 50));
         this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 
         JButton cartButton = new JButton();
@@ -32,20 +27,22 @@ public class ListLabel extends JPanel {
         cartButton.setPreferredSize(new Dimension(35, 35));
         cartButton.setBorder(BorderFactory.createEmptyBorder());
         cartButton.addActionListener(a -> {
-            repo.addToCart();
+            repo.addToCart(1, 1, id);
+            System.out.println(id);
         });
         cartButton.setVisible(true);
 
         String [] options = {"NEW: Add to cart", "EXISTING: Add to cart"};
         brandLabel = new JLabel(brand);
         modelLabel = new JLabel(model);
-        colorLabel = new JLabel(color);
-        sizeLabel = new JLabel(size);
-        priceLabel = new JLabel(price + ":-");
-        JPanel centerPanel = new JPanel();
+        JLabel colorLabel = new JLabel(color);
+        JLabel sizeLabel = new JLabel(size);
+        JLabel priceLabel = new JLabel(price + ":-");
+
         JLabel emptyLabel = new JLabel();
         dropButton = new JComboBox<>(options);
 
+        JPanel centerPanel = new JPanel();
         centerPanel.setBackground(style.getBackgroundColor_LIGHT());
         centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -56,11 +53,11 @@ public class ListLabel extends JPanel {
         priceLabel.setFont(style.getMicroFont());
 
         brandLabel.setPreferredSize(new Dimension(150, 50));
-        modelLabel.setPreferredSize(new Dimension(175, 50));
+        modelLabel.setPreferredSize(new Dimension(150, 50));
         colorLabel.setPreferredSize(new Dimension(100, 50));
         sizeLabel.setPreferredSize(new Dimension(50, 50));
         priceLabel.setPreferredSize(new Dimension(100, 50));
-        dropButton.setPreferredSize(new Dimension(175, 50));
+        dropButton.setPreferredSize(new Dimension(75, 50));
 
         brandLabel.setBackground(style.getBackgroundColor_LIGHT());
         modelLabel.setBackground(style.getBackgroundColor_LIGHT());
