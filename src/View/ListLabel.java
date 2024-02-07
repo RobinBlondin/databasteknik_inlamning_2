@@ -12,7 +12,7 @@ public class ListLabel extends JPanel {
     private final JLabel modelLabel;
     private final JComboBox<String> dropButton;
 
-    public ListLabel(int id, String brand, String model, String color, String size, String price, Repository repo, boolean needDropMenu) {
+    public ListLabel(int id, String brand, String model, String color, String size, String price, Repository repo, boolean needCart) {
         this.setLayout(new BorderLayout());
         this.setBackground(style.getBackgroundColor_LIGHT());
         this.setPreferredSize(new Dimension(600, 50));
@@ -56,7 +56,7 @@ public class ListLabel extends JPanel {
         modelLabel.setPreferredSize(new Dimension(150, 50));
         colorLabel.setPreferredSize(new Dimension(100, 50));
         sizeLabel.setPreferredSize(new Dimension(50, 50));
-        priceLabel.setPreferredSize(new Dimension(100, 50));
+        priceLabel.setPreferredSize(new Dimension(75, 50));
         dropButton.setPreferredSize(new Dimension(75, 50));
 
         brandLabel.setBackground(style.getBackgroundColor_LIGHT());
@@ -95,12 +95,11 @@ public class ListLabel extends JPanel {
         centerPanel.add(colorLabel);
         centerPanel.add(sizeLabel);
         centerPanel.add(priceLabel);
-        if (needDropMenu) {
+        if (needCart) {
             centerPanel.add(cartButton);
         } else {
             centerPanel.add(emptyLabel);
         }
-
 
         add(emptyLabel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);

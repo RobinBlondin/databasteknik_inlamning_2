@@ -12,15 +12,11 @@ public class ListPanel extends JPanel {
     private final int MIN_ENTRIES = 12;
     private final JPanel gridPanel;
     private final JPanel emptyPanel;
-    private final MainFrame mainFrame;
-    private final Reporter reporter;
     private final Repository repo;
     private List<String> filteredList;
 
     public ListPanel(MainFrame mainFrame, Reporter reporter, Repository repo) {
         StyleSettings style = StyleSettings.getInstance();
-        this.mainFrame = mainFrame;
-        this.reporter = reporter;
         this.repo = repo;
 
         filteredList = reporter.filterShoes("", "", "", "", "");
@@ -37,7 +33,7 @@ public class ListPanel extends JPanel {
         emptyPanel.setBorder(BorderFactory.createEmptyBorder());
         emptyPanel.setVisible(true);
 
-        refresh();
+        refresh(filteredList);
 
         JScrollPane scrollPane = new JScrollPane(gridPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -48,13 +44,13 @@ public class ListPanel extends JPanel {
         setVisible(true);
     }
 
-    public void refresh() {
+    public void refresh(List<String> list) {
         gridPanel.removeAll();
-        for (String str : filteredList) {
+        for (String str : list) {
             String[] arr = str.split(", ");
             gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], String.valueOf(arr[4]), String.valueOf(arr[5]), repo, true));
         }
-        for (int i = filteredList.size(); i < MIN_ENTRIES; i++) {
+        for (int i = list.size(); i < MIN_ENTRIES; i++) {
             gridPanel.add(emptyPanel);
         }
         gridPanel.revalidate();
