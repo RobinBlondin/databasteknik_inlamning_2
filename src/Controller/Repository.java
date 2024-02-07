@@ -8,19 +8,23 @@ import java.util.List;
 
 public class Repository {
     private final DBHelper dh;
-    List<Brand> brands;
-    List<Color> colors;
-    List<Size> sizes;
-    List<Category> categories;
-    List<Shoe> shoes;
-    List<Customer> customers;
-    List<OrderEntry> orders;
-    List<Stock> stockEntries;
-    List<ShoppingCart> shoppingCart;
-    List<CategoryMap> categoryMaps;
+    private int loggedInUserId;
+    private OrderEntry loggedInUsersLastOrder;
+    private final List<Brand> brands;
+    private final List<Color> colors;
+    private final List<Size> sizes;
+    private final List<Category> categories;
+    private final List<Shoe> shoes;
+    private final List<Customer> customers;
+    private List<OrderEntry> orders;
+    private List<Stock> stockEntries;
+    private List<ShoppingCart> shoppingCart;
+    private final List<CategoryMap> categoryMaps;
 
     public Repository() {
         dh = new DBHelper();
+        loggedInUserId = 0;
+        loggedInUsersLastOrder = null;
         brands = loadBrands();
         colors = loadColors();
         sizes = loadSizes();
@@ -292,6 +296,22 @@ public class Repository {
         stockEntries = loadStockEntries();
         shoppingCart = loadShoppingCart();
 
+    }
+
+    public int getLoggedInUserId() {
+        return loggedInUserId;
+    }
+
+    public void setLoggedInUserId(int loggedInUserId) {
+        this.loggedInUserId = loggedInUserId;
+    }
+
+    public OrderEntry getLoggedInUsersLastOrder() {
+        return loggedInUsersLastOrder;
+    }
+
+    public void setLoggedInUsersLastOrder(OrderEntry loggedInUsersLastOrder) {
+        this.loggedInUsersLastOrder = loggedInUsersLastOrder;
     }
 
     public List<Brand> getBrands() {
