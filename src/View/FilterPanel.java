@@ -1,17 +1,20 @@
 package View;
 
+import Controller.ActionListener;
+import Controller.Reporter;
 import Controller.Repository;
 import Model.*;
 import Model.Color;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class FilterPanel<T> extends JPanel {
     private Repository repo;
 
-    public FilterPanel(Repository repo) {
+    public FilterPanel(Repository repo, Reporter reporter, ListPanel listPanel) {
         this.repo = repo;
         StyleSettings style = StyleSettings.getInstance();
 
@@ -21,7 +24,25 @@ public class FilterPanel<T> extends JPanel {
         JComboBox<String> sizeBox = new JComboBox<>();
         JComboBox<String> categoryBox = new JComboBox<>();
 
+
+
         populateComboBoxes(brandBox, modelBox, colorBox, sizeBox, categoryBox);
+        java.awt.event.ActionListener comboListener = e -> {
+            List<String> list = reporter.filterShoes(
+                    (String)brandBox.getSelectedItem(),
+                    (String)modelBox.getSelectedItem(),
+                    (String)colorBox.getSelectedItem(),
+                    (String)sizeBox.getSelectedItem(),
+                    (String)categoryBox.getSelectedItem());
+
+            listPanel.refresh(list, 1);
+        };
+
+        brandBox.addActionListener(comboListener);
+        modelBox.addActionListener(comboListener);
+        colorBox.addActionListener(comboListener);
+        sizeBox.addActionListener(comboListener);
+        categoryBox.addActionListener(comboListener);
 
         JLabel brandLabel = new JLabel("Brand");
         JLabel modelLabel = new JLabel("Model");
