@@ -33,7 +33,7 @@ public class ListPanel extends JPanel {
         
         emptyPanel = new JPanel();
         emptyPanel.setBackground(style.getBackgroundColor_LIGHT());
-        emptyPanel.setPreferredSize(new Dimension(800, 50));
+        emptyPanel.setPreferredSize(new Dimension(600, 50));
         emptyPanel.setBorder(BorderFactory.createEmptyBorder());
         emptyPanel.setVisible(true);
 
@@ -52,7 +52,7 @@ public class ListPanel extends JPanel {
         gridPanel.removeAll();
         for (String str : filteredList) {
             String[] arr = str.split(", ");
-            gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], String.valueOf(arr[3]), String.valueOf(arr[4]), repo, true));
+            gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], String.valueOf(arr[4]), String.valueOf(arr[5]), repo, true));
         }
         for (int i = filteredList.size(); i < MIN_ENTRIES; i++) {
             gridPanel.add(emptyPanel);
