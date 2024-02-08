@@ -16,7 +16,7 @@ public class ButtonPanel extends JPanel {
         button.setFont(style.getMicroFontBold());
         button.setBackground(style.getBackgroundColor_DARK());
         button.setForeground(style.getTextColor_DARK());
-        button.setBorder(BorderFactory.createEmptyBorder(0, 25, 0,0));
+        button.setBorder(BorderFactory.createEmptyBorder(0, 10, 0,0));
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setFocusPainted(false);
         button.setVisible(true);

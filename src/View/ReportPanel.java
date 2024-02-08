@@ -47,17 +47,17 @@ public class ReportPanel extends JPanel {
 
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         westPanel.add(new ButtonPanel("Who bought what", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
         westPanel.add(new ButtonPanel("Orders per customer", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
         westPanel.add(new ButtonPanel("Customer total purchase", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
         westPanel.add(new ButtonPanel("City total purchase", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
         westPanel.add(new ButtonPanel("Most sold products", mainFrame));
         westPanel.add(Box.createRigidArea(new Dimension(0, 300)));
         westPanel.add(new ButtonPanel("Back", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 300)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 100)));
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(westPanel, BorderLayout.WEST);
