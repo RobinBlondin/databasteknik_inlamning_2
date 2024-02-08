@@ -42,7 +42,7 @@ public class ShopPanel extends JPanel {
 
         northPanel.add(logoLabel);
 
-        centerPanel.add(new FilterPanel<>(repo), BorderLayout.NORTH);
+        centerPanel.add(new FilterPanel<>(repo, reporter, listPanel), BorderLayout.NORTH);
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
         westPanel.add(Box.createRigidArea(new Dimension(0, 150)));
