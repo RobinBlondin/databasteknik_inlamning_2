@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
         cards.add(reportPanel, "report");
 
         cardLayout = (CardLayout) cards.getLayout();
-        cardLayout.show(cards, "report");
+        cardLayout.show(cards, "shop");
 
         this.getContentPane().add(cards);
         this.setVisible(true);
@@ -51,6 +51,10 @@ public class MainFrame extends JFrame {
 
     public LoginPanel getLoginPanel() {
         return loginPanel;
+    }
+
+    public ReportPanel getReportPanel() {
+        return reportPanel;
     }
 
     public JPanel getCards() {

@@ -30,7 +30,7 @@ public class Reporter {
     }
 
     public List<String> customerPurchases(String sizeStr, String color, String brand) {
-        int size = Integer.parseInt(sizeStr);
+        int size = sizeStr.isEmpty()? 0: Integer.parseInt(sizeStr);
         List<String> list = new ArrayList<>();
 
         rp.getShoppingCart().stream()
@@ -43,41 +43,51 @@ public class Reporter {
         return list;
     }
 
-    public void ordersPerCustomer() {
-       rp.getOrders()
+    public List<String> ordersPerCustomer() {
+        List<String> list = new ArrayList<>();
+        rp.getOrders()
                .stream()
                .collect(Collectors.groupingBy(OrderEntry::getCustomer))
-               .forEach((k, v) -> System.out.println(k.getFirst_name() + " " + k.getLast_name() + " : " + v.size()));
+               .forEach((k, v) -> list.add(k.getFirst_name() + " " + k.getLast_name() + ", " + v.size()));
+       return list;
     }
 
-    public void moneySpentByCustomer() {
+    public List<String> moneySpentByCustomer() {
+        List<String> list = new ArrayList<>();
         rp.getShoppingCart().stream()
                 .collect(Collectors.groupingBy(a -> a.getOrderEntry().getCustomer()))
-                .forEach((k, v) -> System.out.println(k.getFirst_name() + " " + v.stream()
+                .forEach((k, v) -> list.add(k.getFirst_name() + " " + k.getLast_name() + ", " + v.stream()
                                         .map(a -> a.getShoe().getPrice() * a.getQuantity())
                                         .mapToInt(a -> a)
                                         .sum()));
+        return list;
     }
 
-    public void moneySpentPerCity() {
+    public List<String> moneySpentPerCity() {
+        List<String> list = new ArrayList<>();
         rp.getShoppingCart().stream()
                 .collect(Collectors.groupingBy(a -> a.getOrderEntry().getCustomer().getCity()))
-                .forEach((k, v) -> System.out.println(k + " " + v.stream()
+                .forEach((k, v) -> list.add(k + ", " + v.stream()
                         .map(a -> a.getShoe().getPrice() * a.getQuantity())
                         .mapToInt(a -> a)
                         .sum()));
+        return list;
     }
 
-    public void mostSoldProducts() {
+    public List<String> mostSoldProducts() {
+        List<String> list = new ArrayList<>();
         Map<String, Integer> map = new TreeMap<>();
         rp.getShoppingCart().stream()
-                .collect(Collectors.groupingBy(a -> a.getShoe().getBrand().getName() + "," + a.getShoe().getModel()))
+                .collect(Collectors.groupingBy(a -> a.getShoe().getBrand().getName() + ", " + a.getShoe().getModel()))
                 .forEach((k, v) -> map.put(k, v.stream().map(ShoppingCart::getQuantity).mapToInt(a -> a).sorted().sum()));
 
         map.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .forEach(System.out::println);
+                .forEach(a -> list.add(a.toString()));
+
+        return list.stream().map(a->a.replace("=", ", ")).toList();
+
     }
 
 
