@@ -33,7 +33,7 @@ public class ListPanel extends JPanel {
         emptyPanel.setBorder(BorderFactory.createEmptyBorder());
         emptyPanel.setVisible(true);
 
-        refresh(filteredList);
+        refresh(filteredList, 1);
 
         JScrollPane scrollPane = new JScrollPane(gridPanel,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -44,11 +44,15 @@ public class ListPanel extends JPanel {
         setVisible(true);
     }
 
-    public void refresh(List<String> list) {
+    public void refresh(List<String> list, int report) {
         gridPanel.removeAll();
         for (String str : list) {
             String[] arr = str.split(", ");
-            gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], String.valueOf(arr[4]), String.valueOf(arr[5]), repo, true));
+            switch(report) {
+                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], String.valueOf(arr[4]), String.valueOf(arr[5]), repo, true));
+                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[3], arr[4], arr[5], "", repo, false));
+
+            }
         }
         for (int i = list.size(); i < MIN_ENTRIES; i++) {
             gridPanel.add(emptyPanel);
