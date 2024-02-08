@@ -7,8 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ReportPanel extends JPanel {
+    private final ListPanel listPanel;
+    private final ComboBoxPanel comboBoxPanel;
     public ReportPanel(Repository repo, Reporter reporter, MainFrame mainFrame) {
-        ListPanel listPanel = new ListPanel(mainFrame, reporter, repo, false);
+        listPanel = new ListPanel(mainFrame, reporter, repo, false);
+        comboBoxPanel = new ComboBoxPanel(mainFrame);
+        listPanel.clearList();
         StyleSettings style = StyleSettings.getInstance();
 
         this.setLayout(new BorderLayout());
@@ -22,6 +26,7 @@ public class ReportPanel extends JPanel {
         northPanel.setLayout(new BorderLayout());
         northPanel.setBackground(style.getBackgroundColor_SELECTED());
         northPanel.setPreferredSize(new Dimension(1000, 75));
+        northPanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0, style.getButtonColor()));
 
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
@@ -40,23 +45,26 @@ public class ReportPanel extends JPanel {
         JPanel southPanel = new JPanel();
         southPanel.setBackground(style.getBackgroundColor_SELECTED());
         southPanel.setPreferredSize(new Dimension(1000, 100));
+        southPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, style.getButtonColor()));
 
         northPanel.add(logoLabel);
 
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
-        westPanel.add(new ButtonPanel("Who bought what", mainFrame));
+        westPanel.add(comboBoxPanel);
+        westPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        westPanel.add(new ButtonPanel(4, "Who bought what", mainFrame, true));
         westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel("Orders per customer", mainFrame));
+        westPanel.add(new ButtonPanel(5, "Orders per customer", mainFrame, true));
         westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel("Customer total purchase", mainFrame));
+        westPanel.add(new ButtonPanel(6, "Customer total purchase", mainFrame, true));
         westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel("City total purchase", mainFrame));
+        westPanel.add(new ButtonPanel(7, "City total purchase", mainFrame, true));
         westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel("Most sold products", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 300)));
-        westPanel.add(new ButtonPanel("Back", mainFrame));
+        westPanel.add(new ButtonPanel(8, "Most sold products", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 250)));
+        westPanel.add(new ButtonPanel(9, "Back", mainFrame, true));
         westPanel.add(Box.createRigidArea(new Dimension(0, 100)));
 
         this.add(northPanel, BorderLayout.NORTH);
@@ -65,6 +73,13 @@ public class ReportPanel extends JPanel {
         this.add(eastPanel, BorderLayout.EAST);
         this.add(southPanel, BorderLayout.SOUTH);
         this.setVisible(true);
+    }
+
+    public ListPanel getListPanel() {
+        return listPanel;
+    }
+    public ComboBoxPanel getComboBoxPanel() {
+        return comboBoxPanel;
     }
 }
 
