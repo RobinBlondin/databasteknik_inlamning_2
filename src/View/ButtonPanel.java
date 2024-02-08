@@ -13,7 +13,7 @@ public class ButtonPanel extends JPanel {
         JButton button = new JButton();
         button.setText(text);
         button.setPreferredSize(new Dimension(100, 50));
-        button.setFont(style.getSmallFont());
+        button.setFont(style.getMicroFontBold());
         button.setBackground(style.getBackgroundColor_DARK());
         button.setForeground(style.getTextColor_DARK());
         button.setBorder(BorderFactory.createEmptyBorder(0, 25, 0,0));

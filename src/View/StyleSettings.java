@@ -12,6 +12,7 @@ public class StyleSettings {
     private final Font bigFontBold;
     private final Font mediumFontBold;
     private final Font smallFontBold;
+    private final Font microFontBold;
     private final Color backgroundColor_LIGHT;
     private final Color backgroundColor_DARK;
     private final Color backgroundColor_SELECTED;
@@ -30,6 +31,7 @@ public class StyleSettings {
         bigFontBold = new Font("Sans Serif", Font.BOLD, 35);
         mediumFontBold = new Font("Sans Serif", Font.BOLD, 25);
         smallFontBold = new Font("Sans Serif", Font.BOLD, 18);
+        microFontBold = new Font("Sans Serif", Font.BOLD, 14);
         backgroundColor_LIGHT = new Color(50, 49, 62);
         backgroundColor_DARK = new Color(39, 39, 48);
         backgroundColor_SELECTED = new Color(85, 84, 97);
@@ -74,6 +76,10 @@ public class StyleSettings {
 
     public Font getSmallFontBold() {
         return smallFontBold;
+    }
+
+    public Font getMicroFontBold() {
+        return microFontBold;
     }
 
     public Color getBackgroundColor_LIGHT() {
