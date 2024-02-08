@@ -13,16 +13,26 @@ import java.util.List;
 
 public class FilterPanel<T> extends JPanel {
     private Repository repo;
+    private JComboBox<String> brandBox;
+    private JComboBox<String> colorBox;
+    private JComboBox<String> sizeBox;
 
     public FilterPanel(Repository repo, Reporter reporter, ListPanel listPanel) {
         this.repo = repo;
         StyleSettings style = StyleSettings.getInstance();
 
-        JComboBox<String> brandBox = new JComboBox<>();
+        brandBox = new JComboBox<>();
+        colorBox = new JComboBox<>();
+        sizeBox = new JComboBox<>();
         JComboBox<String> modelBox = new JComboBox<>();
-        JComboBox<String> colorBox = new JComboBox<>();
-        JComboBox<String> sizeBox = new JComboBox<>();
         JComboBox<String> categoryBox = new JComboBox<>();
+
+        brandBox.setBackground(style.getButtonColor());
+        colorBox.setBackground(style.getButtonColor());
+        sizeBox.setBackground(style.getButtonColor());
+        modelBox.setBackground(style.getButtonColor());
+        categoryBox.setBackground(style.getButtonColor());
+
 
 
 
