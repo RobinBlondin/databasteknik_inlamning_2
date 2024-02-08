@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.*;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -295,7 +294,6 @@ public class Repository {
         orders = loadOrders();
         stockEntries = loadStockEntries();
         shoppingCart = loadShoppingCart();
-
     }
 
     public int getLoggedInUserId() {
