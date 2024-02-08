@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Repository;
+import Model.ShoppingCart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,8 +28,17 @@ public class ListLabel extends JPanel {
         cartButton.setPreferredSize(new Dimension(35, 35));
         cartButton.setBorder(BorderFactory.createEmptyBorder());
         cartButton.addActionListener(a -> {
-            repo.addToCart(1, 1, id);
-            System.out.println(id);
+            repo.addToCart(repo.getLoggedInUserId(), repo.getLoggedInUsersLastOrder().getId(), id);
+
+
+            ShoppingCart order = repo.getShoppingCart().stream()
+                    .filter(cart -> cart.getShoe().getId() == id)
+                    .filter(cart -> cart.getOrderEntry().getId() == repo.getLoggedInUsersLastOrder().getId())
+                    .filter(cart -> cart.getOrderEntry().getCustomer().getId() == repo.getLoggedInUserId()).toList().getFirst();
+            System.out.println("Amount in stock: " + repo.getStockEntries().stream().filter(stockEntry -> stockEntry.getShoe().getId() == id).toList().getFirst().getQuantity());
+            System.out.println("Shoe: " + order.getShoe().printShoe() +
+                    "\nCustomer: " + order.getOrderEntry().getCustomer().printCustomer() + "\nQuantity in order: " + order.getQuantity());
+            System.out.println("Amount of orders in list: " + repo.getOrders().size());
         });
         cartButton.setVisible(true);
 
