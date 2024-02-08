@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ShopPanel extends JPanel {
     public ShopPanel(Repository repo, Reporter reporter, MainFrame mainFrame) {
-        ListPanel listPanel = new ListPanel(mainFrame, reporter, repo);
+        ListPanel listPanel = new ListPanel(mainFrame, reporter, repo, true);
         StyleSettings style = StyleSettings.getInstance();
 
         this.setLayout(new BorderLayout());
