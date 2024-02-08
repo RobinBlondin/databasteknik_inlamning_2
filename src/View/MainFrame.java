@@ -37,7 +37,7 @@ public class MainFrame extends JFrame {
 
 
         this.getContentPane().add(cards);
-        cardLayout.show(cards, "shop");
+        cardLayout.show(cards, "login");
         this.setVisible(true);
     }
 

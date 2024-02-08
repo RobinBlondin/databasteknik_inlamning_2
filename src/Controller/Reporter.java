@@ -4,7 +4,6 @@ import Model.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Reporter {
     Repository rp;
@@ -30,16 +29,18 @@ public class Reporter {
         return list;
     }
 
-    public void customerPurchases(String sizeStr, String color, String brand) {
+    public List<String> customerPurchases(String sizeStr, String color, String brand) {
         int size = Integer.parseInt(sizeStr);
+        List<String> list = new ArrayList<>();
 
         rp.getShoppingCart().stream()
-                .filter(a -> a.getShoe().getSize().getEu() == size)
-                .filter(a -> a.getShoe().getColor().getName().equals(color))
-                .filter(a -> a.getShoe().getBrand().getName().equals(brand))
+                .filter(a -> sizeStr.isEmpty()|| a.getShoe().getSize().getEu() == size)
+                .filter(a -> color.isEmpty() || a.getShoe().getColor().getName().equals(color))
+                .filter(a -> brand.isEmpty() || a.getShoe().getBrand().getName().equals(brand))
                 .map(a -> a.getOrderEntry().getCustomer())
                 .toList()
-                .forEach(Customer::printCustomer);
+                .forEach(a -> list.add(a.printCustomer()));
+        return list;
     }
 
     public void ordersPerCustomer() {
