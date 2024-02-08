@@ -88,6 +88,6 @@ public class Customer {
     }
 
     public String printCustomer() {
-        return String.format("%d, %s, %s, %s, %s, %s, %s\n", id, firstName, lastName, address, city, email, phone_number);
+        return String.format("%d, %s %s, %s, %s\n", id, firstName, lastName, address, city);
     }
 }
