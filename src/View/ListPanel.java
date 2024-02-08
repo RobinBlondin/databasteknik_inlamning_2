@@ -14,10 +14,12 @@ public class ListPanel extends JPanel {
     private final JPanel emptyPanel;
     private final Repository repo;
     private List<String> filteredList;
+    private final boolean withCartButton;
 
-    public ListPanel(MainFrame mainFrame, Reporter reporter, Repository repo) {
+    public ListPanel(MainFrame mainFrame, Reporter reporter, Repository repo, boolean withCartButton) {
         StyleSettings style = StyleSettings.getInstance();
         this.repo = repo;
+        this.withCartButton = withCartButton;
 
         filteredList = reporter.filterShoes("", "", "", "", "");
         this.setLayout(new BorderLayout());
@@ -49,8 +51,8 @@ public class ListPanel extends JPanel {
         for (String str : list) {
             String[] arr = str.split(", ");
             switch(report) {
-                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], String.valueOf(arr[4]), String.valueOf(arr[5]), repo, true));
-                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[3], arr[4], arr[5], "", repo, false));
+                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], String.valueOf(arr[4]), String.valueOf(arr[5]), repo, withCartButton));
+                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], arr[3], arr[4], arr[5], "", repo, withCartButton));
 
             }
         }

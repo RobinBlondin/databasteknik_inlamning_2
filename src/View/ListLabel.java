@@ -13,7 +13,7 @@ public class ListLabel extends JPanel {
     private final JLabel modelLabel;
     private final JComboBox<String> dropButton;
 
-    public ListLabel(int id, String brand, String model, String color, String size, String price, Repository repo, boolean needCart) {
+    public ListLabel(int id, String brand, String model, String color, String size, String price, Repository repo, boolean withCartButton) {
         this.setLayout(new BorderLayout());
         this.setBackground(style.getBackgroundColor_LIGHT());
         this.setPreferredSize(new Dimension(600, 50));
@@ -105,7 +105,7 @@ public class ListLabel extends JPanel {
         centerPanel.add(colorLabel);
         centerPanel.add(sizeLabel);
         centerPanel.add(priceLabel);
-        if (needCart) {
+        if (withCartButton) {
             centerPanel.add(cartButton);
         } else {
             centerPanel.add(emptyLabel);
