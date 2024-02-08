@@ -21,15 +21,18 @@ public class ShopPanel extends JPanel {
         northPanel.setLayout(new BorderLayout());
         northPanel.setBackground(style.getBackgroundColor_SELECTED());
         northPanel.setPreferredSize(new Dimension(1000, 75));
+        northPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, style.getButtonColor()));
 
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
         westPanel.setBackground(style.getBackgroundColor_DARK());
         westPanel.setPreferredSize(new Dimension(200, 1000));
+        westPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,2, style.getButtonColor()));
 
         JPanel eastPanel = new JPanel();
         eastPanel.setBackground(style.getBackgroundColor_DARK());
         eastPanel.setPreferredSize(new Dimension(200, 1000));
+        eastPanel.setBorder(BorderFactory.createMatteBorder(0,2,0,0, style.getButtonColor()));
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BorderLayout());
@@ -39,21 +42,20 @@ public class ShopPanel extends JPanel {
         JPanel southPanel = new JPanel();
         southPanel.setBackground(style.getBackgroundColor_SELECTED());
         southPanel.setPreferredSize(new Dimension(1000, 100));
+        southPanel.setBorder(BorderFactory.createMatteBorder(2,0,0,0, style.getButtonColor()));
 
         northPanel.add(logoLabel);
 
         centerPanel.add(new FilterPanel<>(repo, reporter, listPanel), BorderLayout.NORTH);
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
+        westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        westPanel.add(new ButtonPanel(1, "Show reports", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 500)));
+        westPanel.add(new ButtonPanel(2, "Logout", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(new ButtonPanel(3, "Quit", mainFrame, true));
         westPanel.add(Box.createRigidArea(new Dimension(0, 150)));
-        westPanel.add(new ButtonPanel("Button1", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        westPanel.add(new ButtonPanel("Button2", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        westPanel.add(new ButtonPanel("Button3", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 300)));
-        westPanel.add(new ButtonPanel("Button5", mainFrame));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 300)));
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(westPanel, BorderLayout.WEST);
