@@ -16,8 +16,6 @@ public class MainFrame extends JFrame {
     private final ReportPanel reportPanel;
 
     public MainFrame() {
-        StyleSettings style = StyleSettings.getInstance();
-
         reporter = new Reporter();
         repo = new Repository();
         cards = new JPanel(new CardLayout());
