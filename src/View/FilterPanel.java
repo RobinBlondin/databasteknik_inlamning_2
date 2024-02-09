@@ -1,6 +1,5 @@
 package View;
 
-import Controller.ActionListener;
 import Controller.Reporter;
 import Controller.Repository;
 import Model.*;
@@ -8,14 +7,13 @@ import Model.Color;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class FilterPanel<T> extends JPanel {
-    private Repository repo;
-    private JComboBox<String> brandBox;
-    private JComboBox<String> colorBox;
-    private JComboBox<String> sizeBox;
+public class FilterPanel extends JPanel {
+    private final Repository repo;
+    private final JComboBox<String> brandBox;
+    private final JComboBox<String> colorBox;
+    private final JComboBox<String> sizeBox;
 
     public FilterPanel(Repository repo, Reporter reporter, ListPanel listPanel) {
         this.repo = repo;
@@ -82,18 +80,18 @@ public class FilterPanel<T> extends JPanel {
         sizeLabel.setForeground(style.getTextColor_SELECTED());
         priceLabel.setForeground(style.getTextColor_SELECTED());
 
-        brandLabel.setPreferredSize(new Dimension(150, 25));
-        modelLabel.setPreferredSize(new Dimension(175, 25));
+        brandLabel.setPreferredSize(new Dimension(125, 25));
+        modelLabel.setPreferredSize(new Dimension(125, 25));
         colorLabel.setPreferredSize(new Dimension(100, 25));
-        sizeLabel.setPreferredSize(new Dimension(50, 25));
+        sizeLabel.setPreferredSize(new Dimension(75, 25));
         priceLabel.setPreferredSize(new Dimension(100, 25));
-        emptyLabel.setPreferredSize(new Dimension(175, 25));
+        emptyLabel.setPreferredSize(new Dimension(100, 25));
 
         brandBox.setPreferredSize(new Dimension(150, 25));
         modelBox.setPreferredSize(new Dimension(175, 25));
         colorBox.setPreferredSize(new Dimension(100, 25));
         sizeBox.setPreferredSize(new Dimension(50, 25));
-        categoryBox.setPreferredSize(new Dimension(100, 25));
+        categoryBox.setPreferredSize(new Dimension(90, 25));
 
 
         JPanel northPanel = new JPanel();
@@ -108,7 +106,9 @@ public class FilterPanel<T> extends JPanel {
         northPanel.add(emptyLabel);
 
         JPanel southPanel = new JPanel();
+        southPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         southPanel.setBackground(style.getBackgroundColor_LIGHT());
+        southPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         southPanel.add(brandLabel);
         southPanel.add(modelLabel);
         southPanel.add(colorLabel);
