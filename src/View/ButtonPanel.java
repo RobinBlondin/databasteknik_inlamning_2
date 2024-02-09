@@ -1,31 +1,25 @@
 package View;
 
-import Model.ButtonPanelParent;
-import Model.Customer;
-import Model.OrderEntry;
+import Model.MainFrameCallback;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
-import java.util.Objects;
 
 public class ButtonPanel extends JPanel implements java.awt.event.ActionListener {
     private final int id;
-    private final MainFrame mainFrame;
-    private final ButtonPanelParent bpp;
+    private final MainFrameCallback callback;
 
-    private int buttonClickedId;
-
-    public ButtonPanel(int id, String text, boolean leftAlign, ButtonPanelParent bpp) {
+    public ButtonPanel(int id, String text, boolean leftAlign, MainFrameCallback callback) {
         StyleSettings style = StyleSettings.getInstance();
         this.id = id;
         //this.mainFrame = mainFrame;
         this.setBackground(style.getBackgroundColor_DARK());
-        this.bpp = bpp;
+        this.callback = callback;
 
         JButton button = new JButton();
         button.setText(text);
-        button.setPreferredSize(new Dimension(200, 50));
+        button.setPreferredSize(new Dimension(175, 50));
         button.setFont(style.getMicroFontBold());
         button.setBackground(style.getBackgroundColor_DARK());
         button.setForeground(style.getButtonColor());
@@ -52,82 +46,6 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
     public void actionPerformed(ActionEvent e) {
         JButton source = (JButton) e.getSource();
         ButtonPanel button = (ButtonPanel)source.getParent();
-        buttonClickedId = button.getId();
-        mainFrame.setClickedButton(buttonClickedId);
-        bpp.buttonClicked();
-
-       /*switch(id) {
-           case 1 -> mainFrame.getCardLayout().show(mainFrame.getCards(), "report");
-           case 2 -> mainFrame.getCardLayout().show(mainFrame.getCards(), "login");
-           case 3 -> System.exit(0);
-           case 4 -> {
-               String brandFromBox = Objects.requireNonNull(mainFrame.getReportPanel().getComboBoxPanel().getBrands().getSelectedItem()).toString();
-               String colorFromBox = Objects.requireNonNull(mainFrame.getReportPanel().getComboBoxPanel().getColor().getSelectedItem()).toString();
-               String sizeFromBox = Objects.requireNonNull(mainFrame.getReportPanel().getComboBoxPanel().getSizes().getSelectedItem()).toString();
-
-               List<String> list = mainFrame.getReporter().customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
-               mainFrame.getReportPanel().getListPanel().refresh(list, 2);
-           }
-           case 5 -> {
-               List<String> list = mainFrame.getReporter().ordersPerCustomer();
-               mainFrame.getReportPanel().getListPanel().refresh(list, 3);
-           }
-           case 6 -> {
-               List<String> list = mainFrame.getReporter().moneySpentByCustomer();
-               mainFrame.getReportPanel().getListPanel().refresh(list, 3);
-           }
-           case 7 -> {
-               List<String> list = mainFrame.getReporter().moneySpentPerCity();
-               mainFrame.getReportPanel().getListPanel().refresh(list, 3);
-           }
-           case 8 -> {
-               List<String> list = mainFrame.getReporter().mostSoldProducts();
-               mainFrame.getReportPanel().getListPanel().refresh(list, 4);
-           }
-           case 9 -> mainFrame.getCardLayout().show(mainFrame.getCards(), "shop");
-           case 10 -> {
-               System.out.println("login pressed");
-               JTextField userField = mainFrame.getLoginPanel().getUserField();
-               JTextField passField = mainFrame.getLoginPanel().getPassField();
-               JLabel errorLabel = mainFrame.getLoginPanel().getErrorLabel();
-
-               boolean isValidUser = mainFrame.getRepo()
-                       .getCustomers()
-                       .stream()
-                       .filter(user -> user.getEmail().equals(userField.getText()))
-                       .anyMatch(pass -> pass.getPassword().equals(passField.getText()));
-
-               if(isValidUser) {
-                   mainFrame.getCardLayout().show(mainFrame.getCards(), "shop");
-
-                   int currentId = mainFrame.getRepo()
-                           .getCustomers()
-                           .stream()
-                           .filter(user -> user.getEmail().equals(userField.getText()))
-                           .map(Customer::getId)
-                           .toList()
-                           .getFirst();
-
-                   OrderEntry lastOrder = mainFrame.getRepo()
-                           .getOrders()
-                           .stream()
-                           .filter(order -> order.getCustomer().getId() == currentId)
-                           .toList()
-                           .getLast();
-
-                   System.out.println(currentId);
-                   mainFrame.getRepo().setLoggedInUserId(currentId);
-                   mainFrame.getRepo().setLoggedInUsersLastOrder(lastOrder);
-                   userField.setText("");
-                   passField.setText("");
-                   errorLabel.setText("");
-               } else {
-                   errorLabel.setText("Username or password is incorrect");
-               }
-           }
-           default -> System.out.println("nothing was performed")
-
-       }
-        */
+        callback.onButtonClicked(button.getId());
     }
 }
