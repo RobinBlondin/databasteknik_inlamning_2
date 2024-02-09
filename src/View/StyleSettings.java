@@ -22,6 +22,8 @@ public class StyleSettings {
     private final Color textColor_DARK;
     private final Color textColor_LIGHT;
     private final Color buttonColor;
+    private final Color buttonColor2;
+    private final Color buttonColor3;
 
     public StyleSettings() {
         bigFont = new Font("Sans Serif", Font.PLAIN, 35);
@@ -41,6 +43,8 @@ public class StyleSettings {
         textColor_DARK = new Color(98, 98, 107);
         textColor_LIGHT = new Color(157, 172, 174);
         buttonColor = new Color(158, 119, 226);
+        buttonColor2 = new Color(50, 10, 95);
+        buttonColor3 = new Color(46, 48, 95);
 
     }
     public static StyleSettings getInstance() {
@@ -115,4 +119,12 @@ public class StyleSettings {
     }
 
     public Color getButtonColor() {return buttonColor;}
+
+    public Color getButtonColor2() {
+        return buttonColor2;
+    }
+
+    public Color getButtonColor3() {
+        return buttonColor3;
+    }
 }
