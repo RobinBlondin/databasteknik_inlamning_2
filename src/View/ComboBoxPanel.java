@@ -5,13 +5,12 @@ import Model.Color;
 import Model.Size;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class ComboBoxPanel extends JPanel {
     private final JComboBox<String> brands;
     private final JComboBox<String> sizes;
-    private JComboBox<String> color;
+    private final JComboBox<String> color;
     public ComboBoxPanel(MainFrame mainFrame) {
         StyleSettings style = StyleSettings.getInstance();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
