@@ -5,7 +5,7 @@ import Controller.Reporter;
 public class Main {
     public static void main(String[] args) {
         Reporter r = new Reporter();
+        //r.filterShoes("adidas", "", "", "", "");
         new MainFrame();
-
     }
 }
