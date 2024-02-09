@@ -1,9 +1,10 @@
 package View;
 
+import Controller.Reporter;
 import Model.Brand;
 import Model.Color;
+import Model.ComboBoxFiller;
 import Model.Size;
-
 import javax.swing.*;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ComboBoxPanel extends JPanel {
     private final JComboBox<String> brands;
     private final JComboBox<String> sizes;
     private final JComboBox<String> color;
-    public ComboBoxPanel(MainFrame mainFrame) {
+    public ComboBoxPanel(Reporter reporter) {
         StyleSettings style = StyleSettings.getInstance();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(style.getBackgroundColor_DARK());
@@ -25,15 +26,23 @@ public class ComboBoxPanel extends JPanel {
         sizes.setBackground(style.getButtonColor());
         color.setBackground(style.getButtonColor());
 
-        List<String> brandNames = mainFrame.getRepo().getBrands().stream().map(Brand::getName).toList();
+        ComboBoxFiller<Brand> brandsFill = Brand::getName;
+        ComboBoxFiller<Size> sizeFill = a -> String.valueOf(a.getEu());
+        ComboBoxFiller<Color> colorFill = Color::getName;
+
+        reporter.populateComboBox(reporter.getRepo().getBrands(), brands, brandsFill);
+        reporter.populateComboBox(reporter.getRepo().getSizes(), sizes, sizeFill);
+        reporter.populateComboBox(reporter.getRepo().getColors(), color, colorFill);
+
+        List<String> brandNames = reporter.getRepo().getBrands().stream().map(Brand::getName).toList();
         brands.addItem("");
         brandNames.forEach(brands::addItem);
 
-        List<String> sizeNames = mainFrame.getRepo().getSizes().stream().map(Size::getEu).map(String::valueOf).toList();
+        List<String> sizeNames = reporter.getRepo().getSizes().stream().map(Size::getEu).map(String::valueOf).toList();
         sizes.addItem("");
         sizeNames.forEach(sizes::addItem);
 
-        List<String> colorNames = mainFrame.getRepo().getColors().stream().map(Color::getName).toList();
+        List<String> colorNames = reporter.getRepo().getColors().stream().map(Color::getName).toList();
         color.addItem("");
         colorNames.forEach(color::addItem);
 

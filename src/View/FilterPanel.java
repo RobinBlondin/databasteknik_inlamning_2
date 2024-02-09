@@ -10,13 +10,11 @@ import java.awt.*;
 import java.util.List;
 
 public class FilterPanel extends JPanel {
-    private final Repository repo;
     private final JComboBox<String> brandBox;
     private final JComboBox<String> colorBox;
     private final JComboBox<String> sizeBox;
 
-    public FilterPanel(Repository repo, Reporter reporter, ListPanel listPanel) {
-        this.repo = repo;
+    public FilterPanel(Reporter reporter, ListPanel listPanel) {
         StyleSettings style = StyleSettings.getInstance();
 
         brandBox = new JComboBox<>();
@@ -31,10 +29,8 @@ public class FilterPanel extends JPanel {
         modelBox.setBackground(style.getButtonColor());
         categoryBox.setBackground(style.getButtonColor());
 
+       populateComboBoxes(reporter, brandBox, colorBox, sizeBox, modelBox, categoryBox);
 
-
-
-        populateComboBoxes(brandBox, modelBox, colorBox, sizeBox, categoryBox);
         java.awt.event.ActionListener comboListener = e -> {
             List<String> list = reporter.filterShoes(
                     (String)brandBox.getSelectedItem(),
@@ -120,25 +116,17 @@ public class FilterPanel extends JPanel {
         this.add(southPanel, BorderLayout.CENTER);
     }
 
-    public void populateComboBoxes(JComboBox<String> brandBox, JComboBox<String> modelBox, JComboBox<String> colorBox, JComboBox<String> sizeBox, JComboBox<String> categoryBox) {
-        List<String> brandNames = repo.getBrands().stream().map(Brand::getName).toList();
-        brandBox.addItem("");
-        brandNames.forEach(brandBox::addItem);
+    public void populateComboBoxes(Reporter reporter, JComboBox<String> brandBox, JComboBox<String> modelBox, JComboBox<String> colorBox, JComboBox<String> sizeBox, JComboBox<String> categoryBox) {
+        ComboBoxFiller<Brand> brandsFill = Brand::getName;
+        ComboBoxFiller<Size> sizeFill = a -> String.valueOf(a.getEu());
+        ComboBoxFiller<Color> colorFill = Color::getName;
+        ComboBoxFiller<Shoe> modelFill = Shoe::getModel;
+        ComboBoxFiller<Category> categoryFill = Category::getName;
 
-        List<String> modelNames = repo.getShoes().stream().map(Shoe::getModel).toList();
-        modelBox.addItem("");
-        modelNames.forEach(modelBox::addItem);
-
-        List<String> colorNames = repo.getColors().stream().map(Color::getName).toList();
-        colorBox.addItem("");
-        colorNames.forEach(colorBox::addItem);
-
-        List<String> sizes = repo.getSizes().stream().map(Size::getEu).map(String::valueOf).toList();
-        sizeBox.addItem("");
-        sizes.forEach(sizeBox::addItem);
-
-        List<String> categoryNames = repo.getCategories().stream().map(Category::getName).toList();
-        categoryBox.addItem("");
-        categoryNames.forEach(categoryBox::addItem);
+        reporter.populateComboBox(reporter.getRepo().getBrands(), brandBox, brandsFill);
+        reporter.populateComboBox(reporter.getRepo().getSizes(), sizeBox, sizeFill);
+        reporter.populateComboBox(reporter.getRepo().getColors(), colorBox, colorFill);
+        reporter.populateComboBox(reporter.getRepo().getShoes(), modelBox, modelFill);
+        reporter.populateComboBox(reporter.getRepo().getCategories(), categoryBox, categoryFill);
     }
 }
