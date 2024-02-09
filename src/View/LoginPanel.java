@@ -1,21 +1,20 @@
 package View;
 
-import Model.Customer;
-import Model.OrderEntry;
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends JPanel {
-    private final ButtonPanel loginButton;
-    private final ButtonPanel exitButton;
-    private JTextField userField;
-    private JTextField passField;
-    private JLabel errorLabel;
+    private final JTextField userField;
+    private final JTextField passField;
+    private final JLabel errorLabel;
     public LoginPanel(MainFrame mainFrame) {
         StyleSettings style = StyleSettings.getInstance();
         this.setBackground(style.getBackgroundColor_DARK());
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(1000, 1000));
+
+        ImageIcon logo = new ImageIcon("images/loginLogo.png");
+        JLabel logoLabel = new JLabel(logo);
 
         JPanel westPanel = new JPanel();
         westPanel.setPreferredSize(new Dimension(300, 1000));
@@ -66,8 +65,10 @@ public class LoginPanel extends JPanel {
         passField.setFont(style.getMicroFontBold());
         passField.setBackground(style.getButtonColor());
 
-        loginButton = new ButtonPanel(10, "Login", mainFrame, false);
-        exitButton = new ButtonPanel(3, "Quit", mainFrame, false);
+        ButtonPanel loginButton = new ButtonPanel(10, "Login", mainFrame, false);
+        ButtonPanel exitButton = new ButtonPanel(3, "Quit", mainFrame, false);
+
+        northPanel.add(logoLabel);
 
         buttonPanel.add(loginButton);
         buttonPanel.add(emptyLabel);
@@ -89,15 +90,6 @@ public class LoginPanel extends JPanel {
         this.add(centerPanel, BorderLayout.CENTER);
         this.setVisible(true);
     }
-
-    public ButtonPanel getLoginButton() {
-        return loginButton;
-    }
-
-    public ButtonPanel getExitButton() {
-        return exitButton;
-    }
-
     public JTextField getUserField() {
         return userField;
     }

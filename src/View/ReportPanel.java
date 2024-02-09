@@ -10,7 +10,7 @@ public class ReportPanel extends JPanel {
     private final ListPanel listPanel;
     private final ComboBoxPanel comboBoxPanel;
     public ReportPanel(Repository repo, Reporter reporter, MainFrame mainFrame) {
-        listPanel = new ListPanel(mainFrame, reporter, repo, false);
+        listPanel = new ListPanel(reporter, repo, false);
         comboBoxPanel = new ComboBoxPanel(mainFrame);
         listPanel.clearList();
         StyleSettings style = StyleSettings.getInstance();
@@ -18,9 +18,7 @@ public class ReportPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setSize(new Dimension(1000, 1000));
 
-        ImageIcon icon = new ImageIcon("images/logo.png");
-        icon = new ImageIcon(icon.getImage().getScaledInstance(67, 67, Image.SCALE_SMOOTH));
-        JLabel logoLabel = new JLabel(icon);
+        LogoPanel logoPanel = new LogoPanel();
 
         JPanel northPanel = new JPanel();
         northPanel.setLayout(new BorderLayout());
@@ -47,25 +45,25 @@ public class ReportPanel extends JPanel {
         southPanel.setPreferredSize(new Dimension(1000, 100));
         southPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, style.getButtonColor()));
 
-        northPanel.add(logoLabel);
+        northPanel.add(logoPanel);
 
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         westPanel.add(comboBoxPanel);
-        westPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         westPanel.add(new ButtonPanel(4, "Who bought what", mainFrame, true));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel(5, "Orders per customer", mainFrame, true));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel(6, "Customer total purchase", mainFrame, true));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel(7, "City total purchase", mainFrame, true));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 60)));
-        westPanel.add(new ButtonPanel(8, "Most sold products", mainFrame, true));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 250)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(new ButtonPanel(5, "Orders per buyer", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(new ButtonPanel(6, "Customer total", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(new ButtonPanel(7, "City total", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        westPanel.add(new ButtonPanel(8, "Most sold", mainFrame, true));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 220)));
         westPanel.add(new ButtonPanel(9, "Back", mainFrame, true));
-        westPanel.add(Box.createRigidArea(new Dimension(0, 100)));
+        westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(westPanel, BorderLayout.WEST);
