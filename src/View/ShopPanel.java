@@ -1,15 +1,14 @@
 package View;
 
 import Controller.Reporter;
-import Controller.Repository;
-import Model.ButtonPanelParent;
+import Model.MainFrameCallback;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ShopPanel extends JPanel {
-    public ShopPanel(Repository repo, Reporter reporter, MainFrame mainFrame, ButtonPanelParent bpp) {
-        ListPanel listPanel = new ListPanel(reporter, repo, true);
+    public ShopPanel(Reporter reporter, MainFrameCallback callBack) {
+        ListPanel listPanel = new ListPanel(reporter, true);
         StyleSettings style = StyleSettings.getInstance();
 
         this.setLayout(new BorderLayout());
@@ -47,15 +46,15 @@ public class ShopPanel extends JPanel {
 
         northPanel.add(logoPanel);
 
-        centerPanel.add(new FilterPanel(repo, reporter, listPanel), BorderLayout.NORTH);
+        centerPanel.add(new FilterPanel(reporter, listPanel), BorderLayout.NORTH);
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
-        westPanel.add(new ButtonPanel(1, "Show reports", mainFrame, true, bpp));
+        westPanel.add(new ButtonPanel(1, "Show reports", true, callBack));
         westPanel.add(Box.createRigidArea(new Dimension(0, 520)));
-        westPanel.add(new ButtonPanel(2, "Logout", mainFrame, true, bpp));
+        westPanel.add(new ButtonPanel(2, "Logout", true, callBack));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(3, "Quit", mainFrame, true, bpp));
+        westPanel.add(new ButtonPanel(3, "Quit", true, callBack));
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
 
         this.add(northPanel, BorderLayout.NORTH);

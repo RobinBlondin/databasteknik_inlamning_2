@@ -1,21 +1,19 @@
 package View;
 
 import Controller.Reporter;
-import Controller.Repository;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class ListPanel extends JPanel {
+    private final Reporter reporter;
     private final JPanel gridPanel;
     private final JPanel emptyPanel;
-    private final Repository repo;
     private final boolean withCartButton;
 
-    public ListPanel(Reporter reporter, Repository repo, boolean withCartButton) {
+    public ListPanel(Reporter reporter, boolean withCartButton) {
         StyleSettings style = StyleSettings.getInstance();
-        this.repo = repo;
+        this.reporter = reporter;
         this.withCartButton = withCartButton;
 
         List<String> filteredList = reporter.filterShoes("", "", "", "", "");
@@ -47,10 +45,10 @@ public class ListPanel extends JPanel {
         for (String str : list) {
             String[] arr = str.split(", ");
             switch(report) {
-                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), repo, withCartButton, arr[1], arr[2], arr[3], arr[4], arr[5]));
-                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]),repo, withCartButton, arr[1], arr[2], arr[3]));
-                case 3 -> gridPanel.add(new ListLabel(0, repo, withCartButton, arr[0], arr[1]));
-                case 4 -> gridPanel.add(new ListLabel(0, repo, withCartButton, arr[0], arr[1], arr[2]));
+                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), reporter.getRepo(), withCartButton, arr[1], arr[2], arr[3], arr[4], arr[5]));
+                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), reporter.getRepo(), withCartButton, arr[1], arr[2], arr[3]));
+                case 3 -> gridPanel.add(new ListLabel(0, reporter.getRepo(), withCartButton, arr[0], arr[1]));
+                case 4 -> gridPanel.add(new ListLabel(0, reporter.getRepo(), withCartButton, arr[0], arr[1], arr[2]));
             }
         }
         int MIN_ENTRIES = 12;
