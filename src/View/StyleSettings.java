@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class StyleSettings {
     private static StyleSettings instance;
-
     private final Font bigFont;
     private final Font mediumFont;
     private final Font smallFont;
