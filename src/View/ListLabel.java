@@ -1,18 +1,16 @@
 package View;
 
 import Controller.Repository;
-import Model.ShoppingCart;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class ListLabel extends JPanel {
-    private StyleSettings style = StyleSettings.getInstance();
     private final JLabel brandLabel;
     private final JLabel modelLabel;
 
-    public ListLabel(int id, Repository repo, boolean withCartButton, String... strings) {
+    public ListLabel(int shoeId, Repository repo, boolean withCartButton, String... strings) {
+        StyleSettings style = StyleSettings.getInstance();
         this.setLayout(new BorderLayout());
         this.setBackground(style.getBackgroundColor_LIGHT());
         this.setPreferredSize(new Dimension(595, 50));
@@ -25,26 +23,7 @@ public class ListLabel extends JPanel {
         String size = strings.length > 3 ? strings[3] : "";
         String price = strings.length > 4 ? strings[4] : "";
 
-        JButton cartButton = new JButton();
-        cartButton.setFocusPainted(false);
-        cartButton.setBackground(style.getBackgroundColor_LIGHT());
-        ImageIcon cartIcon = new ImageIcon("images/cartIcon.png");
-        cartButton.setIcon(cartIcon);
-        cartButton.setPreferredSize(new Dimension(35, 35));
-        cartButton.setBorder(BorderFactory.createEmptyBorder());
-        cartButton.addActionListener(a -> {
-            repo.addToCart(repo.getLoggedInUserId(), repo.getLoggedInUsersLastOrder().getId(), id);
-
-            ShoppingCart order = repo.getShoppingCart().stream()
-                    .filter(cart -> cart.getShoe().getId() == id)
-                    .filter(cart -> cart.getOrderEntry().getId() == repo.getLoggedInUsersLastOrder().getId())
-                    .filter(cart -> cart.getOrderEntry().getCustomer().getId() == repo.getLoggedInUserId()).toList().getFirst();
-            System.out.println("Amount in stock: " + repo.getStockEntries().stream().filter(stockEntry -> stockEntry.getShoe().getId() == id).toList().getFirst().getQuantity());
-            System.out.println("Shoe: " + order.getShoe().printShoe() +
-                    "\nCustomer: " + order.getOrderEntry().getCustomer().printCustomer() + "\nQuantity in order: " + order.getQuantity());
-            System.out.println("Amount of orders in list: " + repo.getOrders().size());
-        });
-        cartButton.setVisible(true);
+        CartButton cartButton = new CartButton(shoeId, repo);
 
         JLabel emptyLabel = new JLabel();
 
@@ -67,11 +46,11 @@ public class ListLabel extends JPanel {
         sizeLabel.setFont(style.getMicroFont());
         priceLabel.setFont(style.getMicroFont());
 
-        brandLabel.setPreferredSize(new Dimension(150, 50));
-        modelLabel.setPreferredSize(new Dimension(175, 50));
+        brandLabel.setPreferredSize(new Dimension(125, 50));
+        modelLabel.setPreferredSize(new Dimension(125, 50));
         colorLabel.setPreferredSize(new Dimension(100, 50));
-        sizeLabel.setPreferredSize(new Dimension(50, 50));
-        priceLabel.setPreferredSize(new Dimension(50, 50));
+        sizeLabel.setPreferredSize(new Dimension(75, 50));
+        priceLabel.setPreferredSize(new Dimension(75, 50));
 
         brandLabel.setBackground(style.getBackgroundColor_LIGHT());
         modelLabel.setBackground(style.getBackgroundColor_LIGHT());
@@ -122,13 +101,6 @@ public class ListLabel extends JPanel {
     }
     public String getPriceText() {
         return modelLabel.getText();
-    }
-    private JPanel createFittedSizeLabelPanel(JLabel label) {
-        JPanel panel = new JPanel();
-        panel.setBackground(style.getBackgroundColor_LIGHT());
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        panel.add(label);
-        return panel;
     }
 
 }
