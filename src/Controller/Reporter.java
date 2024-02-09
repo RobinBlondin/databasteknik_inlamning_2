@@ -2,15 +2,15 @@ package Controller;
 
 import Model.*;
 
+import javax.swing.*;
 import java.util.*;
-import java.util.logging.Filter;
 import java.util.stream.Collectors;
 
 public class Reporter {
-    Repository repo;
+    private final Repository repo;
 
-    public Reporter() {
-        repo = new Repository();
+    public Reporter(Repository repo) {
+        this.repo = repo;
     }
 
     public List<String> filterShoes(String brand, String model, String color, String size, String category) {
@@ -87,10 +87,13 @@ public class Reporter {
                 .forEach(a -> list.add(a.toString()));
 
         return list.stream().map(a->a.replace("=", ", ")).toList();
-
     }
 
-
+    public <T> void populateComboBox(List<T> list, JComboBox<String> box, ComboBoxFiller<T> filler) {
+        List<String> strList = list.stream().map(filler::fill).toList();
+        box.addItem("");
+        strList.forEach(box::addItem);
+    }
 
     public Repository getRepo() {
         return repo;
