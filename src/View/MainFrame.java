@@ -3,6 +3,7 @@ package View;
 import Controller.Reporter;
 import Controller.Repository;
 import Model.Customer;
+import Model.MainFrameCallback;
 import Model.OrderEntry;
 
 import javax.swing.*;
@@ -10,25 +11,22 @@ import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
-public class MainFrame extends JFrame {
-    private final Reporter reporter;
+public class MainFrame extends JFrame implements MainFrameCallback {
     private final Repository repo;
+    private final Reporter reporter;
     private final CardLayout cardLayout;
     private final JPanel cards;
     private final LoginPanel loginPanel;
     private final ShopPanel shopPanel;
     private final ReportPanel reportPanel;
-    private int clickedButton;
-
 
     public MainFrame() {
-        reporter = new Reporter();
         repo = new Repository();
+        reporter = new Reporter(repo);
         cards = new JPanel(new CardLayout());
-        loginPanel = new LoginPanel(this, this::buttonClick);
-        shopPanel = new ShopPanel(repo, reporter, this, this::buttonClick);
-        reportPanel = new ReportPanel(repo, reporter, this, this::buttonClick);
-        clickedButton = 0;
+        loginPanel = new LoginPanel(this);
+        shopPanel = new ShopPanel(reporter, this);
+        reportPanel = new ReportPanel(reporter, this);
 
         this.setTitle("Soles with soul");
         this.setSize(1000, 1000);
@@ -46,8 +44,37 @@ public class MainFrame extends JFrame {
         this.setVisible(true);
     }
 
-    public void buttonClick() {
-        switch(clickedButton) {
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public ShopPanel getShopPanel() {
+        return shopPanel;
+    }
+
+    public LoginPanel getLoginPanel() {
+        return loginPanel;
+    }
+
+    public ReportPanel getReportPanel() {
+        return reportPanel;
+    }
+
+    public JPanel getCards() {
+        return cards;
+    }
+
+    public Reporter getReporter() {
+        return reporter;
+    }
+
+    public Repository getRepo() {
+        return repo;
+    }
+
+    @Override
+    public void onButtonClicked(int id) {
+        switch(id) {
             case 1 -> this.getCardLayout().show(getCards(), "report");
             case 2 -> getCardLayout().show(getCards(), "login");
             case 3 -> System.exit(0);
@@ -121,39 +148,4 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public int getClickedButton() {
-        return clickedButton;
-    }
-
-    public void setClickedButton(int clickedButton) {
-        this.clickedButton = clickedButton;
-    }
-
-    public CardLayout getCardLayout() {
-        return cardLayout;
-    }
-
-    public ShopPanel getShopPanel() {
-        return shopPanel;
-    }
-
-    public LoginPanel getLoginPanel() {
-        return loginPanel;
-    }
-
-    public ReportPanel getReportPanel() {
-        return reportPanel;
-    }
-
-    public JPanel getCards() {
-        return cards;
-    }
-
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    public Repository getRepo() {
-        return repo;
-    }
 }
