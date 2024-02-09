@@ -4,10 +4,10 @@ import Model.Customer;
 import Model.OrderEntry;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.Objects;
 
 public class ButtonPanel extends JPanel implements java.awt.event.ActionListener {
     private final int id;
@@ -21,11 +21,11 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
 
         JButton button = new JButton();
         button.setText(text);
-        button.setPreferredSize(new Dimension(150, 50));
+        button.setPreferredSize(new Dimension(200, 50));
         button.setFont(style.getMicroFontBold());
         button.setBackground(style.getBackgroundColor_DARK());
         button.setForeground(style.getButtonColor());
-        button.setBorder(BorderFactory.createEmptyBorder(0, 0, 0,0));
+        button.setBorder(BorderFactory.createEmptyBorder(0, 15, 0,0));
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.addActionListener(this);
         button.setFocusPainted(false);
@@ -55,11 +55,11 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
            case 2 -> mainFrame.getCardLayout().show(mainFrame.getCards(), "login");
            case 3 -> System.exit(0);
            case 4 -> {
-               String brand = mainFrame.getReportPanel().getComboBoxPanel().getBrands().getSelectedItem().toString();
-               String color = mainFrame.getReportPanel().getComboBoxPanel().getColor().getSelectedItem().toString();
-               String size = mainFrame.getReportPanel().getComboBoxPanel().getSizes().getSelectedItem().toString();
+               String brandFromBox = Objects.requireNonNull(mainFrame.getReportPanel().getComboBoxPanel().getBrands().getSelectedItem()).toString();
+               String colorFromBox = Objects.requireNonNull(mainFrame.getReportPanel().getComboBoxPanel().getColor().getSelectedItem()).toString();
+               String sizeFromBox = Objects.requireNonNull(mainFrame.getReportPanel().getComboBoxPanel().getSizes().getSelectedItem()).toString();
 
-               List<String> list = mainFrame.getReporter().customerPurchases(size, color, brand);
+               List<String> list = mainFrame.getReporter().customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
                mainFrame.getReportPanel().getListPanel().refresh(list, 2);
            }
            case 5 -> {
