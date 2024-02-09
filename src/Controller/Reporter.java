@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 
 import java.util.*;
+import java.util.logging.Filter;
 import java.util.stream.Collectors;
 
 public class Reporter {
@@ -16,11 +17,11 @@ public class Reporter {
         List<String> list = new ArrayList<>();
 
         repo.getCategoryMaps().stream()
-                .filter(a -> brand.isEmpty() || a.getShoe().getBrand().getName().contains(brand))
-                .filter(a -> model.isEmpty() || a.getShoe().getModel().contains(model))
-                .filter(a -> color.isEmpty() || a.getShoe().getColor().getName().contains(color))
+                .filter(a -> brand.isEmpty() || a.getShoe().getBrand().getName().equals(brand))
+                .filter(a -> model.isEmpty() || a.getShoe().getModel().equals(model))
+                .filter(a -> color.isEmpty() || a.getShoe().getColor().getName().equals(color))
                 .filter(a -> size.isEmpty() || a.getShoe().getSize().getEu() == Integer.parseInt(size))
-                .filter(a -> category.isEmpty() || a.getCategory().getName().contains(category))
+                .filter(a -> category.isEmpty() || a.getCategory().getName().equals(category))
                 .map(CategoryMap::getShoe)
                 .collect(Collectors.toSet())
                 .forEach(a -> list.add(a.printShoe()));
@@ -33,7 +34,7 @@ public class Reporter {
         List<String> list = new ArrayList<>();
 
         repo.getShoppingCart().stream()
-                .filter(a -> sizeStr.isEmpty()|| a.getShoe().getSize().getEu() == size)
+                .filter(a -> sizeStr.isEmpty() || a.getShoe().getSize().getEu() == size)
                 .filter(a -> color.isEmpty() || a.getShoe().getColor().getName().equals(color))
                 .filter(a -> brand.isEmpty() || a.getShoe().getBrand().getName().equals(brand))
                 .map(a -> a.getOrderEntry().getCustomer())

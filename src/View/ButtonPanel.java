@@ -1,8 +1,8 @@
 package View;
 
+import Model.ButtonPanelParent;
 import Model.Customer;
 import Model.OrderEntry;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,12 +12,16 @@ import java.util.Objects;
 public class ButtonPanel extends JPanel implements java.awt.event.ActionListener {
     private final int id;
     private final MainFrame mainFrame;
+    private final ButtonPanelParent bpp;
 
-    public ButtonPanel(int id, String text, MainFrame mainFrame, boolean leftAlign) {
+    private int buttonClickedId;
+
+    public ButtonPanel(int id, String text, boolean leftAlign, ButtonPanelParent bpp) {
         StyleSettings style = StyleSettings.getInstance();
         this.id = id;
-        this.mainFrame = mainFrame;
+        //this.mainFrame = mainFrame;
         this.setBackground(style.getBackgroundColor_DARK());
+        this.bpp = bpp;
 
         JButton button = new JButton();
         button.setText(text);
@@ -48,9 +52,11 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
     public void actionPerformed(ActionEvent e) {
         JButton source = (JButton) e.getSource();
         ButtonPanel button = (ButtonPanel)source.getParent();
-        int id = button.getId();
+        buttonClickedId = button.getId();
+        mainFrame.setClickedButton(buttonClickedId);
+        bpp.buttonClicked();
 
-       switch(id) {
+       /*switch(id) {
            case 1 -> mainFrame.getCardLayout().show(mainFrame.getCards(), "report");
            case 2 -> mainFrame.getCardLayout().show(mainFrame.getCards(), "login");
            case 3 -> System.exit(0);
@@ -119,9 +125,9 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
                    errorLabel.setText("Username or password is incorrect");
                }
            }
-           default -> System.out.println("nothing was performed");
+           default -> System.out.println("nothing was performed")
 
        }
-
+        */
     }
 }

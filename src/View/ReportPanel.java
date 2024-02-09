@@ -2,6 +2,7 @@ package View;
 
 import Controller.Reporter;
 import Controller.Repository;
+import Model.ButtonPanelParent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 public class ReportPanel extends JPanel {
     private final ListPanel listPanel;
     private final ComboBoxPanel comboBoxPanel;
-    public ReportPanel(Repository repo, Reporter reporter, MainFrame mainFrame) {
+    public ReportPanel(Repository repo, Reporter reporter, MainFrame mainFrame, ButtonPanelParent bpp) {
         listPanel = new ListPanel(reporter, repo, false);
         comboBoxPanel = new ComboBoxPanel(mainFrame);
         listPanel.clearList();
@@ -52,17 +53,17 @@ public class ReportPanel extends JPanel {
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         westPanel.add(comboBoxPanel);
         westPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        westPanel.add(new ButtonPanel(4, "Who bought what", mainFrame, true));
+        westPanel.add(new ButtonPanel(4, "Who bought what", mainFrame, true, bpp));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(5, "Orders per buyer", mainFrame, true));
+        westPanel.add(new ButtonPanel(5, "Orders per buyer", mainFrame, true, bpp));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(6, "Customer total", mainFrame, true));
+        westPanel.add(new ButtonPanel(6, "Customer total", mainFrame, true, bpp));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(7, "City total", mainFrame, true));
+        westPanel.add(new ButtonPanel(7, "City total", mainFrame, true, bpp));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(8, "Most sold", mainFrame, true));
+        westPanel.add(new ButtonPanel(8, "Most sold", mainFrame, true, bpp));
         westPanel.add(Box.createRigidArea(new Dimension(0, 220)));
-        westPanel.add(new ButtonPanel(9, "Back", mainFrame, true));
+        westPanel.add(new ButtonPanel(9, "Back", mainFrame, true, bpp));
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
 
         this.add(northPanel, BorderLayout.NORTH);

@@ -1,5 +1,7 @@
 package View;
 
+import Model.ButtonPanelParent;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class LoginPanel extends JPanel {
     private final JTextField userField;
     private final JTextField passField;
     private final JLabel errorLabel;
-    public LoginPanel(MainFrame mainFrame) {
+    public LoginPanel(MainFrame mainFrame, ButtonPanelParent bpp) {
         StyleSettings style = StyleSettings.getInstance();
         this.setBackground(style.getBackgroundColor_DARK());
         this.setLayout(new BorderLayout());
@@ -65,8 +67,8 @@ public class LoginPanel extends JPanel {
         passField.setFont(style.getMicroFontBold());
         passField.setBackground(style.getButtonColor());
 
-        ButtonPanel loginButton = new ButtonPanel(10, "Login", mainFrame, false);
-        ButtonPanel exitButton = new ButtonPanel(3, "Quit", mainFrame, false);
+        ButtonPanel loginButton = new ButtonPanel(10, "Login", mainFrame, false, bpp);
+        ButtonPanel exitButton = new ButtonPanel(3, "Quit", mainFrame, false, bpp);
 
         northPanel.add(logoLabel);
 

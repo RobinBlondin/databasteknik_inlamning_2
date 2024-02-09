@@ -2,9 +2,13 @@ package View;
 
 import Controller.Reporter;
 import Controller.Repository;
+import Model.Customer;
+import Model.OrderEntry;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.Objects;
 
 public class MainFrame extends JFrame {
     private final Reporter reporter;
@@ -14,14 +18,17 @@ public class MainFrame extends JFrame {
     private final LoginPanel loginPanel;
     private final ShopPanel shopPanel;
     private final ReportPanel reportPanel;
+    private int clickedButton;
+
 
     public MainFrame() {
         reporter = new Reporter();
         repo = new Repository();
         cards = new JPanel(new CardLayout());
-        loginPanel = new LoginPanel(this);
-        shopPanel = new ShopPanel(repo, reporter, this);
-        reportPanel = new ReportPanel(repo, reporter, this);
+        loginPanel = new LoginPanel(this, this::buttonClick);
+        shopPanel = new ShopPanel(repo, reporter, this, this::buttonClick);
+        reportPanel = new ReportPanel(repo, reporter, this, this::buttonClick);
+        clickedButton = 0;
 
         this.setTitle("Soles with soul");
         this.setSize(1000, 1000);
@@ -33,10 +40,93 @@ public class MainFrame extends JFrame {
         cards.add(reportPanel, "report");
 
         cardLayout = (CardLayout) cards.getLayout();
-        cardLayout.show(cards, "shop");
+        cardLayout.show(cards, "login");
 
         this.getContentPane().add(cards);
         this.setVisible(true);
+    }
+
+    public void buttonClick() {
+        switch(clickedButton) {
+            case 1 -> this.getCardLayout().show(getCards(), "report");
+            case 2 -> getCardLayout().show(getCards(), "login");
+            case 3 -> System.exit(0);
+            case 4 -> {
+                String brandFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getBrands().getSelectedItem()).toString();
+                String colorFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getColor().getSelectedItem()).toString();
+                String sizeFromBox = Objects.requireNonNull(getReportPanel().getComboBoxPanel().getSizes().getSelectedItem()).toString();
+
+                java.util.List<String> list = getReporter().customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
+                getReportPanel().getListPanel().refresh(list, 2);
+            }
+            case 5 -> {
+                java.util.List<String> list = getReporter().ordersPerCustomer();
+                getReportPanel().getListPanel().refresh(list, 3);
+            }
+            case 6 -> {
+                java.util.List<String> list = getReporter().moneySpentByCustomer();
+                getReportPanel().getListPanel().refresh(list, 3);
+            }
+            case 7 -> {
+                java.util.List<String> list = getReporter().moneySpentPerCity();
+                getReportPanel().getListPanel().refresh(list, 3);
+            }
+            case 8 -> {
+                List<String> list = getReporter().mostSoldProducts();
+                getReportPanel().getListPanel().refresh(list, 4);
+            }
+            case 9 -> getCardLayout().show(getCards(), "shop");
+            case 10 -> {
+                System.out.println("login pressed");
+                JTextField userField = getLoginPanel().getUserField();
+                JTextField passField = getLoginPanel().getPassField();
+                JLabel errorLabel = getLoginPanel().getErrorLabel();
+
+                boolean isValidUser = getRepo()
+                        .getCustomers()
+                        .stream()
+                        .filter(user -> user.getEmail().equals(userField.getText()))
+                        .anyMatch(pass -> pass.getPassword().equals(passField.getText()));
+
+                if(isValidUser) {
+                    getCardLayout().show(getCards(), "shop");
+
+                    int currentId = getRepo()
+                            .getCustomers()
+                            .stream()
+                            .filter(user -> user.getEmail().equals(userField.getText()))
+                            .map(Customer::getId)
+                            .toList()
+                            .getFirst();
+
+                    OrderEntry lastOrder = getRepo()
+                            .getOrders()
+                            .stream()
+                            .filter(order -> order.getCustomer().getId() == currentId)
+                            .toList()
+                            .getLast();
+
+                    System.out.println(currentId);
+                    getRepo().setLoggedInUserId(currentId);
+                    getRepo().setLoggedInUsersLastOrder(lastOrder);
+                    userField.setText("");
+                    passField.setText("");
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Username or password is incorrect");
+                }
+            }
+            default -> System.out.println("nothing was performed");
+
+        }
+    }
+
+    public int getClickedButton() {
+        return clickedButton;
+    }
+
+    public void setClickedButton(int clickedButton) {
+        this.clickedButton = clickedButton;
     }
 
     public CardLayout getCardLayout() {
