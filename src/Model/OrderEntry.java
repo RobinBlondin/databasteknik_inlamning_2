@@ -3,12 +3,9 @@ package Model;
 import java.time.LocalDate;
 
 public class OrderEntry {
-    private int id;
-    private LocalDate orderDate;
-    private Customer customer;
-
-    public OrderEntry() {
-    }
+    private final int id;
+    private final LocalDate orderDate;
+    private final Customer customer;
 
     public OrderEntry(int id, String orderDate, Customer customer) {
         this.id = id;
@@ -20,24 +17,12 @@ public class OrderEntry {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
-    }
-
     public Customer getCustomer() {
         return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 }
 

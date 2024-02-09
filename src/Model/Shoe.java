@@ -1,15 +1,12 @@
 package Model;
 
 public class Shoe {
-    private int id;
-    private String model;
-    private int price;
-    private Brand brand;
-    private Color color;
-    private Size size;
-
-    public Shoe() {
-    }
+    private final int id;
+    private final String model;
+    private final int price;
+    private final Brand brand;
+    private final Color color;
+    private final Size size;
 
     public Shoe(int id, String model, int price, Brand brand, Color color, Size size) {
         this.id = id;
@@ -24,48 +21,24 @@ public class Shoe {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getModel() {
         return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public Brand getBrand() {
         return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     public Size getSize() {
         return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
     }
 
     public String printShoe() {

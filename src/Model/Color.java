@@ -1,11 +1,9 @@
 package Model;
 
 public class Color {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
 
-    public Color() {
-    }
     public Color(int id, String name) {
         this.id = id;
         this.name = name;
@@ -15,15 +13,9 @@ public class Color {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
