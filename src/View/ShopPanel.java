@@ -9,14 +9,20 @@ import java.awt.*;
 public class ShopPanel extends JPanel {
     private final FilterPanel filterPanel;
     private final ListPanel listPanel;
-    private JLabel errorMessage;
+    private final JLabel errorMessage;
+    private final CartPanel cartPanel;
+    private final JLabel cartSum;
     public ShopPanel(Reporter reporter, MainFrameCallback callBack) {
         listPanel = new ListPanel(reporter, true, callBack);
-        filterPanel = new FilterPanel(reporter, listPanel);
+        filterPanel = new FilterPanel(reporter, listPanel, callBack);
+        cartPanel = new CartPanel(reporter);
         StyleSettings style = StyleSettings.getInstance();
 
         this.setLayout(new BorderLayout());
         this.setSize(new Dimension(1000, 1000));
+
+        JLabel eastTitleLabel = new JLabel("Ordered shoes");
+        eastTitleLabel.setForeground(style.getTextColor_LIGHT());
 
         JPanel logoPanel = new LogoPanel();
 
@@ -33,6 +39,7 @@ public class ShopPanel extends JPanel {
         westPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,2, style.getButtonColor()));
 
         JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BorderLayout());
         eastPanel.setBackground(style.getBackgroundColor_DARK());
         eastPanel.setPreferredSize(new Dimension(200, 1000));
         eastPanel.setBorder(BorderFactory.createMatteBorder(0,2,0,0, style.getButtonColor()));
@@ -67,6 +74,34 @@ public class ShopPanel extends JPanel {
 
         northPanel.add(logoPanel);
 
+        JLabel cartTitle = new JLabel("Ordered items");
+        cartTitle.setForeground(style.getTextColor_LIGHT());
+        cartTitle.setBackground(style.getBackgroundColor_DARK());
+        cartTitle.setFont(style.getMicroFontBold());
+        cartTitle.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JLabel cartTotalText = new JLabel("Total: ");
+        cartTotalText.setForeground(style.getTextColor_LIGHT());
+        cartTotalText.setBackground(style.getBackgroundColor_DARK());
+        cartTotalText.setFont(style.getMicroFontBold());
+        cartTotalText.setPreferredSize(new Dimension(100, 50));
+
+        cartSum = new JLabel("0");
+        cartSum.setForeground(style.getTextColor_LIGHT());
+        cartSum.setBackground(style.getBackgroundColor_DARK());
+        cartSum.setFont(style.getMicroFontBold());
+        cartSum.setPreferredSize(new Dimension(100, 50));
+
+        JPanel totalSumPanel = new JPanel();
+        totalSumPanel.setLayout(new BoxLayout(totalSumPanel, BoxLayout.X_AXIS));
+        totalSumPanel.setPreferredSize(new Dimension(200, 50));
+        totalSumPanel.setForeground(style.getTextColor_LIGHT());
+        totalSumPanel.setBackground(style.getBackgroundColor_DARK());
+        totalSumPanel.setFont(style.getMicroFontBold());
+        totalSumPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        totalSumPanel.add(cartTotalText);
+        totalSumPanel.add(cartSum);
+
         centerPanel.add(filterPanel, BorderLayout.NORTH);
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
@@ -77,6 +112,10 @@ public class ShopPanel extends JPanel {
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         westPanel.add(new ButtonPanel(3, "Quit", true, callBack));
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+
+        eastPanel.add(cartTitle, BorderLayout.NORTH);
+        eastPanel.add(cartPanel, BorderLayout.CENTER);
+        eastPanel.add(totalSumPanel, BorderLayout.SOUTH);
 
         southPanel.add(Box.createRigidArea(new Dimension(320, 0)));
         southPanel.add(errorMessage);
@@ -98,6 +137,14 @@ public class ShopPanel extends JPanel {
 
     public void setErrorMessageText(String text) {
         errorMessage.setText(text);
+    }
+
+    public CartPanel getCartPanel() {
+        return cartPanel;
+    }
+
+    public void setCartSumText(String text) {
+        cartSum.setText(text);
     }
 
 }
