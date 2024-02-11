@@ -2,13 +2,12 @@ package View;
 
 import Controller.Reporter;
 import Controller.Repository;
-import Model.Customer;
-import Model.MainFrameCallback;
-import Model.OrderEntry;
+import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainFrame extends JFrame implements MainFrameCallback {
@@ -74,7 +73,7 @@ public class MainFrame extends JFrame implements MainFrameCallback {
 
     @Override
     public void onButtonClicked(int id, String text) {
-        switch(id) {
+        switch (id) {
             case 1 -> {
                 cardLayout.show(getCards(), "report");
                 java.util.List<String> list = reporter.customerPurchases("", "", "");
@@ -100,11 +99,11 @@ public class MainFrame extends JFrame implements MainFrameCallback {
             }
             case 7 -> {
                 java.util.List<String> list = getReporter().moneySpentPerCity();
-               reportPanel.getListPanel().refresh(list, 3);
+                reportPanel.getListPanel().refresh(list, 3);
             }
             case 8 -> {
                 List<String> list = reporter.mostSoldProducts();
-               reportPanel.getListPanel().refresh(list, 4);
+                reportPanel.getListPanel().refresh(list, 4);
             }
             case 9 -> cardLayout.show(getCards(), "shop");
             case 10 -> {
@@ -119,7 +118,7 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                         .filter(user -> user.getEmail().equals(userField.getText()))
                         .anyMatch(pass -> pass.getPassword().equals(passField.getText()));
 
-                if(isValidUser) {
+                if (isValidUser) {
                     cardLayout.show(getCards(), "shop");
                     List<String> list = reporter.filterShoes("", "", "", "", "");
                     shopPanel.getListPanel().refresh(list, 1);
@@ -131,16 +130,13 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                             .toList()
                             .getFirst();
 
-                    OrderEntry lastOrder = repo.getOrders()
-                            .stream()
-                            .filter(order -> order.getCustomer().getId() == currentId)
-                            .toList()
-                            .getLast();
+                    repo.setLoggedInUserId(currentId);
+                    repo.setLoggedInUsersLastOrder();
+                    OrderEntry lastOrder = repo.getLoggedInUsersLastOrder();
 
                     System.out.println(currentId);
                     System.out.println(lastOrder.getCustomer().getFirst_name());
-                    repo.setLoggedInUserId(currentId);
-                    repo.setLoggedInUsersLastOrder(lastOrder);
+
                     userField.setText("");
                     passField.setText("");
                     errorLabel.setText("");
@@ -149,16 +145,26 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                 }
             }
             case 11 -> {
+                repo.loadStockEntries();
+                repo.loadShoes();
                 List<String> list = shopPanel.getFilterPanel().getSelectedItems();
-                SwingUtilities.invokeLater(() -> reportPanel.getListPanel().refresh(list, 1)
-                );
+                Map<Shoe, Integer> orders = repo.getCurrentUserOrder();
 
-                System.out.println("refreshed");
-            }
-            case 12 -> shopPanel.setErrorMessageText(text);
-            default -> System.out.println("nothing was performed");
+                SwingUtilities.invokeLater(() -> {
+                    shopPanel.getListPanel().refresh(list, 1);
+                    shopPanel.getCartPanel().refresh(repo.getCurrentUserOrder());
+            });
 
+            int sum = orders.entrySet().stream().map((k -> k.getKey().getPrice() * k.getValue())).mapToInt(a -> a).sum();
+            System.out.println(sum);
+            shopPanel.setCartSumText(String.valueOf(sum));
+
+            System.out.println("refreshed");
         }
+        case 12 -> shopPanel.setErrorMessageText(text);
+        default -> System.out.println("nothing was performed");
+
     }
+}
 
 }
