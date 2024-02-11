@@ -34,18 +34,6 @@ public class ComboBoxPanel extends JPanel {
         reporter.populateComboBox(reporter.getRepo().getSizes(), sizes, sizeFill);
         reporter.populateComboBox(reporter.getRepo().getColors(), color, colorFill);
 
-        List<String> brandNames = reporter.getRepo().getBrands().stream().map(Brand::getName).toList();
-        brands.addItem("");
-        brandNames.forEach(brands::addItem);
-
-        List<String> sizeNames = reporter.getRepo().getSizes().stream().map(Size::getEu).map(String::valueOf).toList();
-        sizes.addItem("");
-        sizeNames.forEach(sizes::addItem);
-
-        List<String> colorNames = reporter.getRepo().getColors().stream().map(Color::getName).toList();
-        color.addItem("");
-        colorNames.forEach(color::addItem);
-
         this.add(brands);
         this.add(Box.createVerticalStrut(5));
         this.add(color);

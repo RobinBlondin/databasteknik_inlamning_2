@@ -7,11 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Repository {
     private final DBHelper dh;
     private int loggedInUserId;
+    private final Map<Shoe, Integer> currentUserOrder;
     private OrderEntry loggedInUsersLastOrder;
     private final List<Brand> brands;
     private final List<Color> colors;
@@ -28,7 +31,8 @@ public class Repository {
     public Repository(MainFrameCallback callback) {
         dh = new DBHelper();
         loggedInUserId = 0;
-        loggedInUsersLastOrder = null;
+        loggedInUsersLastOrder = new OrderEntry(0, "2014-03-26", null);
+        currentUserOrder = new HashMap<>();
         brands = loadBrands();
         colors = loadColors();
         sizes = loadSizes();
@@ -296,12 +300,7 @@ public class Repository {
 
         } catch (SQLException e) {
             callback.onButtonClicked(12, e.getMessage());
-            Timer timer = new Timer(5000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    callback.onButtonClicked(12, "");
-                }
-            });
+            Timer timer = new Timer(5000, e1 -> callback.onButtonClicked(12, ""));
             timer.setRepeats(false);
             timer.start();
             System.out.println(e.getErrorCode());
@@ -327,9 +326,19 @@ public class Repository {
         return loggedInUsersLastOrder;
     }
 
-    public void setLoggedInUsersLastOrder(OrderEntry loggedInUsersLastOrder) {
-        this.loggedInUsersLastOrder = loggedInUsersLastOrder;
+    public void setLoggedInUsersLastOrder() {
+        loadOrders();
+        loggedInUsersLastOrder = getOrders()
+                .stream()
+                .filter(order -> order.getCustomer().getId() == loggedInUserId)
+                .toList()
+                .getLast();
     }
+
+    public Map<Shoe, Integer> getCurrentUserOrder() {
+        return currentUserOrder;
+    }
+
 
     public List<Brand> getBrands() {
         return brands;

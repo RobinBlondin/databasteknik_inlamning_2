@@ -22,6 +22,5 @@ public class DBHelper {
         return DriverManager.getConnection(prop.getProperty("url"),
                                            prop.getProperty("userName"),
                                            prop.getProperty("password"));
-
     }
 }
