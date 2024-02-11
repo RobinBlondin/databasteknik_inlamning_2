@@ -54,10 +54,10 @@ public class ListPanel extends JPanel {
             String[] arr = str.split(", ");
 
             switch(report) {
-                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), arr[1], reporter.getRepo(), withCartButton, callback, arr[2], arr[3], arr[4], arr[5], arr[6]));
-                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), "", reporter.getRepo(), withCartButton, callback, arr[1], arr[2], arr[3]));
-                case 3 -> gridPanel.add(new ListLabel(0, "", reporter.getRepo(), withCartButton, callback, arr[0], arr[1]));
-                case 4 -> gridPanel.add(new ListLabel(0, "", reporter.getRepo(), withCartButton, callback, arr[0], arr[1], arr[2]));
+                case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), new AmountLabel(arr[1]), reporter.getRepo(), withCartButton, callback, arr[2], arr[3], arr[4], arr[5], arr[6]));
+                case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), new AmountLabel(""), reporter.getRepo(), withCartButton, callback, arr[1], arr[2], arr[3]));
+                case 3 -> gridPanel.add(new ListLabel(0, new AmountLabel(""), reporter.getRepo(), withCartButton, callback, arr[0], arr[1]));
+                case 4 -> gridPanel.add(new ListLabel(0, new AmountLabel(""), reporter.getRepo(), withCartButton, callback, arr[0], arr[1], arr[2]));
             }
         }
         int MIN_ENTRIES = 12;

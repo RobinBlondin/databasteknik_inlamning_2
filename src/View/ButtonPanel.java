@@ -13,7 +13,6 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
     public ButtonPanel(int id, String text, boolean leftAlign, MainFrameCallback callback) {
         StyleSettings style = StyleSettings.getInstance();
         this.id = id;
-        //this.mainFrame = mainFrame;
         this.setBackground(style.getBackgroundColor_DARK());
         this.callback = callback;
 

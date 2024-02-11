@@ -13,7 +13,7 @@ public class ListLabel extends JPanel {
     private final JLabel modelLabel;
     private final JLabel amountLabel;
 
-    public ListLabel(int shoeId, String amount, Repository repo, boolean withCartButton, MainFrameCallback callback, String... strings) {
+    public ListLabel(int shoeId, AmountLabel amountLabel, Repository repo, boolean withCartButton, MainFrameCallback callback, String... strings) {
         StyleSettings style = StyleSettings.getInstance();
         this.setLayout(new BorderLayout());
         this.setBackground(style.getBackgroundColor_LIGHT());
@@ -41,37 +41,35 @@ public class ListLabel extends JPanel {
         JLabel sizeLabel = new JLabel(size);
         JLabel priceLabel = new JLabel(price);
         JLabel emptyLabel = new JLabel();
-        System.out.println("Amount in listlabel: " + amount);
-        amountLabel = new JLabel(amount);
-        updateAmountLabel(amount);
+        this.amountLabel = amountLabel;
 
         brandLabel.setFont(style.getMicroFont());
         modelLabel.setFont(style.getMicroFont());
         colorLabel.setFont(style.getMicroFont());
         sizeLabel.setFont(style.getMicroFont());
         priceLabel.setFont(style.getMicroFont());
-        amountLabel.setFont(style.getMicroFont());
+
 
         brandLabel.setMinimumSize(new Dimension(140, 50));
         modelLabel.setMinimumSize(new Dimension(140, 50));
         colorLabel.setMinimumSize(new Dimension(100, 50));
         sizeLabel.setMinimumSize(new Dimension(50, 50));
         priceLabel.setMinimumSize(new Dimension(75, 50));
-        amountLabel.setMinimumSize(new Dimension(45, 50));
+
 
         brandLabel.setMaximumSize(new Dimension(140, 50));
         modelLabel.setMaximumSize(new Dimension(140, 50));
         colorLabel.setMaximumSize(new Dimension(100, 50));
         sizeLabel.setMaximumSize(new Dimension(50, 50));
         priceLabel.setMaximumSize(new Dimension(75, 50));
-        amountLabel.setMaximumSize(new Dimension(45, 50));
+
 
         brandLabel.setPreferredSize(new Dimension(140, 50));
         modelLabel.setPreferredSize(new Dimension(140, 50));
         colorLabel.setPreferredSize(new Dimension(100, 50));
         sizeLabel.setPreferredSize(new Dimension(50, 50));
         priceLabel.setPreferredSize(new Dimension(75, 50));
-        amountLabel.setPreferredSize(new Dimension(45, 50));
+
 
         brandLabel.setBackground(style.getBackgroundColor_LIGHT());
         modelLabel.setBackground(style.getBackgroundColor_LIGHT());
@@ -85,16 +83,13 @@ public class ListLabel extends JPanel {
         colorLabel.setForeground(style.getTextColor_LIGHT());
         sizeLabel.setForeground(style.getTextColor_LIGHT());
         priceLabel.setForeground(style.getTextColor_LIGHT());
-        amountLabel.setForeground(style.getTextColor_LIGHT());
 
         brandLabel.setBorder(BorderFactory.createEmptyBorder());
         modelLabel.setBorder(BorderFactory.createEmptyBorder());
         colorLabel.setBorder(BorderFactory.createEmptyBorder());
         sizeLabel.setBorder(BorderFactory.createEmptyBorder());
         priceLabel.setBorder(BorderFactory.createEmptyBorder());
-        amountLabel.setBorder(BorderFactory.createEmptyBorder());
 
-        amountLabel.setVisible(true);
 
         List<JLabel> labels = List.of(brandLabel, modelLabel, colorLabel, sizeLabel, priceLabel);
         for (int i = 0; i < strings.length; i++) {

@@ -17,7 +17,7 @@ public class FilterPanel extends JPanel {
     private final JComboBox<String> categoryBox;
     private final Reporter reporter;
 
-    public FilterPanel(Reporter reporter, ListPanel listPanel) {
+    public FilterPanel(Reporter reporter, ListPanel listPanel, MainFrameCallback callback) {
         StyleSettings style = StyleSettings.getInstance();
 
         brandBox = new JComboBox<>();
@@ -36,8 +36,7 @@ public class FilterPanel extends JPanel {
        populateComboBoxes(reporter, brandBox, modelBox, colorBox, sizeBox, categoryBox);
 
         ActionListener comboListener = e -> {
-            List<String> list = getSelectedItems();
-            listPanel.refresh(list, 1);
+            callback.onButtonClicked(11, "");
         };
 
         brandBox.addActionListener(comboListener);
@@ -85,7 +84,6 @@ public class FilterPanel extends JPanel {
         priceLabel.setPreferredSize(new Dimension(75, 25));
         amountLabel.setPreferredSize(new Dimension(30, 25));
 
-
         brandLabel.setMaximumSize(new Dimension(140, 25));
         modelLabel.setMaximumSize(new Dimension(140, 25));
         colorLabel.setMaximumSize(new Dimension(100, 25));
@@ -93,14 +91,12 @@ public class FilterPanel extends JPanel {
         priceLabel.setMaximumSize(new Dimension(75, 25));
         amountLabel.setMaximumSize(new Dimension(30, 25));
 
-
         brandLabel.setMinimumSize(new Dimension(140, 25));
         modelLabel.setMinimumSize(new Dimension(140, 25));
         colorLabel.setMinimumSize(new Dimension(100, 25));
         sizeLabel.setMinimumSize(new Dimension(50, 25));
         priceLabel.setMinimumSize(new Dimension(75, 25));
         amountLabel.setMinimumSize(new Dimension(30, 25));
-
 
         brandBox.setPreferredSize(new Dimension(150, 25));
         modelBox.setPreferredSize(new Dimension(175, 25));
@@ -130,7 +126,6 @@ public class FilterPanel extends JPanel {
         southPanel.add(sizeLabel);
         southPanel.add(priceLabel);
         southPanel.add(amountLabel);
-        //southPanel.add(emptyLabel);
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(southPanel, BorderLayout.CENTER);
