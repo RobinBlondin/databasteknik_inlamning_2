@@ -9,10 +9,10 @@ import java.awt.*;
 public class ReportPanel extends JPanel {
     private final ListPanel listPanel;
     private final ComboBoxPanel comboBoxPanel;
-    public ReportPanel(Reporter reporter, MainFrameCallback callBack) {
-        listPanel = new ListPanel(reporter, false);
+    public ReportPanel(Reporter reporter, MainFrameCallback callback) {
+        this.listPanel = new ListPanel(reporter, false, callback);
         comboBoxPanel = new ComboBoxPanel(reporter);
-        listPanel.clearList();
+
         StyleSettings style = StyleSettings.getInstance();
 
         this.setLayout(new BorderLayout());
@@ -52,17 +52,17 @@ public class ReportPanel extends JPanel {
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         westPanel.add(comboBoxPanel);
         westPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        westPanel.add(new ButtonPanel(4, "Who bought what", true, callBack));
+        westPanel.add(new ButtonPanel(4, "Who bought what", true, callback));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(5, "Orders per buyer", true, callBack));
+        westPanel.add(new ButtonPanel(5, "Orders per buyer", true, callback));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(6, "Customer total", true, callBack));
+        westPanel.add(new ButtonPanel(6, "Customer total", true, callback));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(7, "City total", true, callBack));
+        westPanel.add(new ButtonPanel(7, "City total", true, callback));
         westPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        westPanel.add(new ButtonPanel(8, "Most sold", true, callBack));
+        westPanel.add(new ButtonPanel(8, "Most sold", true, callback));
         westPanel.add(Box.createRigidArea(new Dimension(0, 220)));
-        westPanel.add(new ButtonPanel(9, "Back", true, callBack));
+        westPanel.add(new ButtonPanel(9, "Back", true, callback));
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
 
         this.add(northPanel, BorderLayout.NORTH);

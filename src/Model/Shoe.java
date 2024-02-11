@@ -7,14 +7,16 @@ public class Shoe {
     private final Brand brand;
     private final Color color;
     private final Size size;
+    private int amountInStock;
 
-    public Shoe(int id, String model, int price, Brand brand, Color color, Size size) {
+    public Shoe(int id, String model, int price, Brand brand, Color color, Size size, int amountInStock) {
         this.id = id;
         this.model = model;
         this.price = price;
         this.brand = brand;
         this.color = color;
         this.size = size;
+        this.amountInStock = amountInStock;
     }
 
     public int getId() {
@@ -41,7 +43,15 @@ public class Shoe {
         return size;
     }
 
+    public int getAmountInStock() {
+        return amountInStock;
+    }
+
+    public void setAmountInStock(int amountInStock) {
+        this.amountInStock = amountInStock;
+    }
+
     public String printShoe() {
-        return String.format("%d, %s, %s, %s, %d, %d\n", id, brand.getName(), model, color.getName(), size.getEu(), price);
+        return String.format("%d, %d, %s, %s, %s, %d, %d\n", id, amountInStock, brand.getName(), model, color.getName(), size.getEu(), price);
     }
 }

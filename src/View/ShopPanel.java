@@ -7,8 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ShopPanel extends JPanel {
+    private final FilterPanel filterPanel;
+    private final ListPanel listPanel;
+    private JLabel errorMessage;
     public ShopPanel(Reporter reporter, MainFrameCallback callBack) {
-        ListPanel listPanel = new ListPanel(reporter, true);
+        listPanel = new ListPanel(reporter, true, callBack);
+        filterPanel = new FilterPanel(reporter, listPanel);
         StyleSettings style = StyleSettings.getInstance();
 
         this.setLayout(new BorderLayout());
@@ -41,12 +45,29 @@ public class ShopPanel extends JPanel {
 
         JPanel southPanel = new JPanel();
         southPanel.setBackground(style.getBackgroundColor_SELECTED());
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.X_AXIS));
         southPanel.setPreferredSize(new Dimension(1000, 100));
         southPanel.setBorder(BorderFactory.createMatteBorder(2,0,0,0, style.getButtonColor()));
 
+        errorMessage = new JLabel();
+        errorMessage.setBackground(style.getBackgroundColor_SELECTED());
+        errorMessage.setPreferredSize(new Dimension(600, 100));
+        errorMessage.setMinimumSize(new Dimension(600, 100));
+        errorMessage.setMinimumSize(new Dimension(600, 100));
+        errorMessage.setForeground(Color.red);
+        errorMessage.setFont(style.getSmallFontBold());
+        errorMessage.setHorizontalAlignment(SwingConstants.CENTER);
+        errorMessage.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        JLabel errorEmptyLabel2 = new JLabel();
+        errorEmptyLabel2.setBackground(style.getBackgroundColor_SELECTED());
+        errorEmptyLabel2.setPreferredSize(new Dimension(200, 100));
+        errorEmptyLabel2.setMinimumSize(new Dimension(200, 100));
+        errorEmptyLabel2.setMinimumSize(new Dimension(200, 100));
+
         northPanel.add(logoPanel);
 
-        centerPanel.add(new FilterPanel(reporter, listPanel), BorderLayout.NORTH);
+        centerPanel.add(filterPanel, BorderLayout.NORTH);
         centerPanel.add(listPanel, BorderLayout.CENTER);
 
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
@@ -57,6 +78,9 @@ public class ShopPanel extends JPanel {
         westPanel.add(new ButtonPanel(3, "Quit", true, callBack));
         westPanel.add(Box.createRigidArea(new Dimension(0, 50)));
 
+        southPanel.add(Box.createRigidArea(new Dimension(320, 0)));
+        southPanel.add(errorMessage);
+
         this.add(northPanel, BorderLayout.NORTH);
         this.add(westPanel, BorderLayout.WEST);
         this.add(centerPanel, BorderLayout.CENTER);
@@ -64,4 +88,16 @@ public class ShopPanel extends JPanel {
         this.add(southPanel, BorderLayout.SOUTH);
         this.setVisible(true);
     }
+
+    public FilterPanel getFilterPanel() {
+        return filterPanel;
+    }
+    public ListPanel getListPanel() {
+        return listPanel;
+    }
+
+    public void setErrorMessageText(String text) {
+        errorMessage.setText(text);
+    }
+
 }

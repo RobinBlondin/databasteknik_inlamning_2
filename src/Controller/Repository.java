@@ -1,6 +1,10 @@
 package Controller;
 
 import Model.*;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +23,9 @@ public class Repository {
     private List<Stock> stockEntries;
     private List<ShoppingCart> shoppingCart;
     private final List<CategoryMap> categoryMaps;
+    private final MainFrameCallback callback;
 
-    public Repository() {
+    public Repository(MainFrameCallback callback) {
         dh = new DBHelper();
         loggedInUserId = 0;
         loggedInUsersLastOrder = null;
@@ -34,6 +39,8 @@ public class Repository {
         stockEntries = loadStockEntries();
         shoppingCart = loadShoppingCart();
         categoryMaps = loadCategoryMaps();
+        this.callback = callback;
+        loadStockAmount();
     }
 
     public List<Brand> loadBrands() {
@@ -170,7 +177,7 @@ public class Repository {
                 Color color = colors.stream().filter(a -> a.getId() == colorId).toList().getFirst();
                 Size size = sizes.stream().filter(a -> a.getId() == sizeId).toList().getFirst();
 
-                list.add(new Shoe(id, model, price, brand, color, size));
+                list.add(new Shoe(id, model, price, brand, color, size, 0));
             }
             return list;
         } catch (SQLException e) {
@@ -288,12 +295,24 @@ public class Repository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            callback.onButtonClicked(12, e.getMessage());
+            Timer timer = new Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    callback.onButtonClicked(12, "");
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
             System.out.println(e.getErrorCode());
         }
         orders = loadOrders();
         stockEntries = loadStockEntries();
         shoppingCart = loadShoppingCart();
+    }
+
+    public void loadStockAmount() {
+        stockEntries.forEach(a -> a.getShoe().setAmountInStock(a.getQuantity()));
     }
 
     public int getLoggedInUserId() {

@@ -21,7 +21,7 @@ public class MainFrame extends JFrame implements MainFrameCallback {
     private final ReportPanel reportPanel;
 
     public MainFrame() {
-        repo = new Repository();
+        repo = new Repository(this);
         reporter = new Reporter(repo);
         cards = new JPanel(new CardLayout());
         loginPanel = new LoginPanel(this);
@@ -73,69 +73,74 @@ public class MainFrame extends JFrame implements MainFrameCallback {
     }
 
     @Override
-    public void onButtonClicked(int id) {
+    public void onButtonClicked(int id, String text) {
         switch(id) {
-            case 1 -> this.getCardLayout().show(getCards(), "report");
-            case 2 -> getCardLayout().show(getCards(), "login");
+            case 1 -> {
+                cardLayout.show(getCards(), "report");
+                java.util.List<String> list = reporter.customerPurchases("", "", "");
+                reportPanel.getListPanel().refresh(list, 2);
+            }
+            case 2 -> cardLayout.show(getCards(), "login");
             case 3 -> System.exit(0);
             case 4 -> {
                 String brandFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getBrands().getSelectedItem()).toString();
                 String colorFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getColor().getSelectedItem()).toString();
-                String sizeFromBox = Objects.requireNonNull(getReportPanel().getComboBoxPanel().getSizes().getSelectedItem()).toString();
+                String sizeFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getSizes().getSelectedItem()).toString();
 
-                java.util.List<String> list = getReporter().customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
-                getReportPanel().getListPanel().refresh(list, 2);
+                java.util.List<String> list = reporter.customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
+                reportPanel.getListPanel().refresh(list, 2);
             }
             case 5 -> {
-                java.util.List<String> list = getReporter().ordersPerCustomer();
-                getReportPanel().getListPanel().refresh(list, 3);
+                java.util.List<String> list = reporter.ordersPerCustomer();
+                reportPanel.getListPanel().refresh(list, 3);
             }
             case 6 -> {
-                java.util.List<String> list = getReporter().moneySpentByCustomer();
-                getReportPanel().getListPanel().refresh(list, 3);
+                java.util.List<String> list = reporter.moneySpentByCustomer();
+                reportPanel.getListPanel().refresh(list, 3);
             }
             case 7 -> {
                 java.util.List<String> list = getReporter().moneySpentPerCity();
-                getReportPanel().getListPanel().refresh(list, 3);
+               reportPanel.getListPanel().refresh(list, 3);
             }
             case 8 -> {
-                List<String> list = getReporter().mostSoldProducts();
-                getReportPanel().getListPanel().refresh(list, 4);
+                List<String> list = reporter.mostSoldProducts();
+               reportPanel.getListPanel().refresh(list, 4);
             }
-            case 9 -> getCardLayout().show(getCards(), "shop");
+            case 9 -> cardLayout.show(getCards(), "shop");
             case 10 -> {
                 System.out.println("login pressed");
-                JTextField userField = getLoginPanel().getUserField();
-                JTextField passField = getLoginPanel().getPassField();
-                JLabel errorLabel = getLoginPanel().getErrorLabel();
+                JTextField userField = loginPanel.getUserField();
+                JTextField passField = loginPanel.getPassField();
+                JLabel errorLabel = loginPanel.getErrorLabel();
 
-                boolean isValidUser = getRepo()
+                boolean isValidUser = repo
                         .getCustomers()
                         .stream()
                         .filter(user -> user.getEmail().equals(userField.getText()))
                         .anyMatch(pass -> pass.getPassword().equals(passField.getText()));
 
                 if(isValidUser) {
-                    getCardLayout().show(getCards(), "shop");
+                    cardLayout.show(getCards(), "shop");
+                    List<String> list = reporter.filterShoes("", "", "", "", "");
+                    shopPanel.getListPanel().refresh(list, 1);
 
-                    int currentId = getRepo()
-                            .getCustomers()
+                    int currentId = repo.getCustomers()
                             .stream()
                             .filter(user -> user.getEmail().equals(userField.getText()))
                             .map(Customer::getId)
                             .toList()
                             .getFirst();
 
-                    OrderEntry lastOrder = getRepo()
-                            .getOrders()
+                    OrderEntry lastOrder = repo.getOrders()
                             .stream()
                             .filter(order -> order.getCustomer().getId() == currentId)
                             .toList()
                             .getLast();
 
                     System.out.println(currentId);
-                    getRepo().setLoggedInUserId(currentId);
-                    getRepo().setLoggedInUsersLastOrder(lastOrder);
+                    System.out.println(lastOrder.getCustomer().getFirst_name());
+                    repo.setLoggedInUserId(currentId);
+                    repo.setLoggedInUsersLastOrder(lastOrder);
                     userField.setText("");
                     passField.setText("");
                     errorLabel.setText("");
@@ -143,6 +148,14 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                     errorLabel.setText("Username or password is incorrect");
                 }
             }
+            case 11 -> {
+                List<String> list = shopPanel.getFilterPanel().getSelectedItems();
+                SwingUtilities.invokeLater(() -> reportPanel.getListPanel().refresh(list, 1)
+                );
+
+                System.out.println("refreshed");
+            }
+            case 12 -> shopPanel.setErrorMessageText(text);
             default -> System.out.println("nothing was performed");
 
         }

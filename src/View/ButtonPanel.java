@@ -46,6 +46,6 @@ public class ButtonPanel extends JPanel implements java.awt.event.ActionListener
     public void actionPerformed(ActionEvent e) {
         JButton source = (JButton) e.getSource();
         ButtonPanel button = (ButtonPanel)source.getParent();
-        callback.onButtonClicked(button.getId());
+        callback.onButtonClicked(button.getId(), "");
     }
 }
