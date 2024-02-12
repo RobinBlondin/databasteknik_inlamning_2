@@ -3,8 +3,6 @@ package Controller;
 import Model.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -330,7 +328,6 @@ public class Repository {
         loadOrders();
         loggedInUsersLastOrder = getOrders()
                 .stream()
-                .filter(order -> order.getCustomer().getId() == loggedInUserId)
                 .toList()
                 .getLast();
     }
@@ -338,7 +335,6 @@ public class Repository {
     public Map<Shoe, Integer> getCurrentUserOrder() {
         return currentUserOrder;
     }
-
 
     public List<Brand> getBrands() {
         return brands;
