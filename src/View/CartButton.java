@@ -21,12 +21,13 @@ public class CartButton extends JButton {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 5));
         this.addActionListener(a -> {
             repo.loadStockEntries();
-            repo.loadShoes();
-            repo.loadStockAmount();
-            repo.loadOrders();
+            int qty = repo.getStockEntries().stream().filter(b -> b.getShoe().getId() == shoeId).map(Stock::getQuantity).reduce(Integer::sum).get();
+            String inStock = qty >= 1? "in": "";
 
             if (repo.getCurrentUserOrder().isEmpty()) {
                 repo.addToCart(repo.getLoggedInUserId(), 0, shoeId);
+                repo.loadOrders();
+                repo.setLoggedInUsersLastOrder();
             } else {
                 repo.addToCart(repo.getLoggedInUserId(), repo.getLoggedInUsersLastOrder().getId(), shoeId);
             }
@@ -37,19 +38,8 @@ public class CartButton extends JButton {
             } else {
                 orders.put(orderedShoe, 1);
             }
-            int qty = repo.getStockEntries().stream().filter(stock -> stock.getShoe().getId() == shoeId).map(Stock::getQuantity).mapToInt(b -> b).sum();
-            callback.onButtonClicked(11, "");
-            //System.out.println("Amount in stock: " + repo.getStockEntries().stream().filter(stockEntry -> stockEntry.getShoe().getId() == shoeId).toList().getFirst().getQuantity());
 
-           /* ShoppingCart order = repo.getShoppingCart().stream()
-                    .filter(cart -> cart.getShoe().getId() == shoeId)
-                    .filter(cart -> cart.getOrderEntry().getId() == repo.getLoggedInUsersLastOrder().getId())
-                    .filter(cart -> cart.getOrderEntry().getCustomer().getId() == repo.getLoggedInUserId()).toList().getFirst();*/
-           /* System.out.println("Amount in stock: " + repo.getStockEntries().stream().filter(stockEntry -> stockEntry.getShoe().id() == shoeId).toList().getFirst().getQuantity());
-            System.out.println("Shoe: " + order.getShoe().printShoe() +
-                    "\nCustomer: " + order.getOrderEntry().getCustomer().printCustomer() + "\nQuantity in order: " + order.getQuantity());
-            System.out.println("Amount of orders in list: " + repo.getOrders().size());*/
-
+            callback.onButtonClicked(11, inStock);
         });
         this.setVisible(true);
     }
