@@ -13,7 +13,7 @@ public class ListPanel extends JPanel {
     private final Reporter reporter;
     private final JPanel gridPanel;
     private final JPanel emptyPanel;
-    private boolean withCartButton;
+    private final boolean withCartButton;
     private final MainFrameCallback callback;
 
     public ListPanel(Reporter reporter, boolean withCartButton, MainFrameCallback callback) {
@@ -52,7 +52,6 @@ public class ListPanel extends JPanel {
 
         for (String str : list) {
             String[] arr = str.split(", ");
-
             switch(report) {
                 case 1 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), new AmountLabel(arr[1]), reporter.getRepo(), withCartButton, callback, arr[2], arr[3], arr[4], arr[5], arr[6]));
                 case 2 -> gridPanel.add(new ListLabel(Integer.parseInt(arr[0]), new AmountLabel(""), reporter.getRepo(), withCartButton, callback, arr[1], arr[2], arr[3]));
