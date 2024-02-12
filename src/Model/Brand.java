@@ -1,6 +1,6 @@
 package Model;
 
-public class Brand {
+public final class Brand {
     private final int id;
     private final String name;
 

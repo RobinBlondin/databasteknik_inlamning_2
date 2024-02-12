@@ -2,7 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 
-public class OrderEntry {
+public final class OrderEntry {
     private final int id;
     private final LocalDate orderDate;
     private final Customer customer;

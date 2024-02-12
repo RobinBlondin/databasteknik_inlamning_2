@@ -79,7 +79,10 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                 java.util.List<String> list = reporter.customerPurchases("", "", "");
                 reportPanel.getListPanel().refresh(list, 2);
             }
-            case 2 -> cardLayout.show(getCards(), "login");
+            case 2 -> {
+                repo.getCurrentUserOrder().clear();
+                cardLayout.show(getCards(), "login");
+            }
             case 3 -> System.exit(0);
             case 4 -> {
                 String brandFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getBrands().getSelectedItem()).toString();
@@ -110,6 +113,8 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                 JTextField userField = loginPanel.getUserField();
                 JTextField passField = loginPanel.getPassField();
                 JLabel errorLabel = loginPanel.getErrorLabel();
+
+                shopPanel.getCartPanel().refresh(repo.getCurrentUserOrder());
 
                 boolean isValidUser = repo
                         .getCustomers()

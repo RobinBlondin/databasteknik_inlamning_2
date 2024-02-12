@@ -1,6 +1,6 @@
 package Model;
 
-public class Size {
+public final class Size {
     private final int id;
     private final int eu;
     private final int uk;

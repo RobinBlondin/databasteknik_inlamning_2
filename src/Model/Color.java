@@ -1,6 +1,6 @@
 package Model;
 
-public class Color {
+public final class Color {
     private final int id;
     private final String name;
 

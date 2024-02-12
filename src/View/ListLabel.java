@@ -2,8 +2,6 @@ package View;
 
 import Controller.Repository;
 import Model.MainFrameCallback;
-import Model.Stock;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;

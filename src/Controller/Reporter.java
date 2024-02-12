@@ -89,12 +89,12 @@ public class Reporter implements FilterInterface {
     }
 
     public <T> void populateComboBox(List<T> list, JComboBox<String> box, ComboBoxFiller<T> filler) {
-        List<String> strList = new ArrayList<>(list.stream()
+        List<String> strList = list.stream()
                 .map(filler::fill)
                 .collect(Collectors.toSet())
                 .stream()
                 .sorted()
-                .toList());
+                .toList();
 
         box.addItem("");
         strList.forEach(box::addItem);

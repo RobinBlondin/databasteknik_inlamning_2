@@ -1,6 +1,6 @@
 package Model;
 
-public class ShoppingCart {
+public final class ShoppingCart {
     private final Shoe shoe;
     private final OrderEntry orderEntry;
     private final int quantity;

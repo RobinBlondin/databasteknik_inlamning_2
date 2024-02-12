@@ -1,6 +1,6 @@
 package Model;
 
-public class CategoryMap {
+public final class CategoryMap {
     private final Shoe shoe;
     private final Category category;
 

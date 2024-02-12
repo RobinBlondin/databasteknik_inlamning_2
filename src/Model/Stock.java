@@ -1,6 +1,6 @@
 package Model;
 
-public class Stock {
+public final class Stock {
     private final int id;
     private final Shoe shoe;
     private final int quantity;
