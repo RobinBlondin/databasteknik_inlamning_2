@@ -8,19 +8,19 @@ public class CartLabel extends JPanel {
         StyleSettings style = StyleSettings.getInstance();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(style.getBackgroundColor_DARK());
-        setPreferredSize(new Dimension(180, 50));
-        setMinimumSize(new Dimension(180, 50));
-        setMaximumSize(new Dimension(180, 50));
+        setPreferredSize(new Dimension(180, 25));
+        setMinimumSize(new Dimension(180, 25));
+        setMaximumSize(new Dimension(180, 25));
 
         JLabel nameLabel = new JLabel(shoeName);
         JLabel quantityLabel = new JLabel(quantity);
 
-        nameLabel.setPreferredSize(new Dimension(140, 50));
-        quantityLabel.setPreferredSize(new Dimension(40, 50));
-        nameLabel.setMinimumSize(new Dimension(140, 50));
-        quantityLabel.setMinimumSize(new Dimension(40, 50));
-        nameLabel.setMaximumSize(new Dimension(140, 50));
-        quantityLabel.setMaximumSize(new Dimension(40, 50));
+        nameLabel.setPreferredSize(new Dimension(140, 25));
+        quantityLabel.setPreferredSize(new Dimension(40, 25));
+        nameLabel.setMinimumSize(new Dimension(140, 25));
+        quantityLabel.setMinimumSize(new Dimension(40, 25));
+        nameLabel.setMaximumSize(new Dimension(140, 25));
+        quantityLabel.setMaximumSize(new Dimension(40, 25));
 
         nameLabel.setBackground(style.getBackgroundColor_DARK());
         quantityLabel.setBackground(style.getBackgroundColor_DARK());
