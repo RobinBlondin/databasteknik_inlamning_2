@@ -131,6 +131,7 @@ public class ShopPanel extends JPanel {
     public FilterPanel getFilterPanel() {
         return filterPanel;
     }
+
     public ListPanel getListPanel() {
         return listPanel;
     }
