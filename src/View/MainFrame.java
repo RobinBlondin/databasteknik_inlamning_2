@@ -86,19 +86,19 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                 String colorFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getColor().getSelectedItem()).toString();
                 String sizeFromBox = Objects.requireNonNull(reportPanel.getComboBoxPanel().getSizes().getSelectedItem()).toString();
 
-                java.util.List<String> list = reporter.customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
+                List<String> list = reporter.customerPurchases(sizeFromBox, colorFromBox, brandFromBox);
                 reportPanel.getListPanel().refresh(list, 2);
             }
             case 5 -> {
-                java.util.List<String> list = reporter.ordersPerCustomer();
+                List<String> list = reporter.ordersPerCustomer();
                 reportPanel.getListPanel().refresh(list, 3);
             }
             case 6 -> {
-                java.util.List<String> list = reporter.moneySpentByCustomer();
+                List<String> list = reporter.moneySpentByCustomer();
                 reportPanel.getListPanel().refresh(list, 3);
             }
             case 7 -> {
-                java.util.List<String> list = getReporter().moneySpentPerCity();
+                List<String> list = getReporter().moneySpentPerCity();
                 reportPanel.getListPanel().refresh(list, 3);
             }
             case 8 -> {
@@ -107,7 +107,6 @@ public class MainFrame extends JFrame implements MainFrameCallback {
             }
             case 9 -> cardLayout.show(getCards(), "shop");
             case 10 -> {
-                System.out.println("login pressed");
                 JTextField userField = loginPanel.getUserField();
                 JTextField passField = loginPanel.getPassField();
                 JLabel errorLabel = loginPanel.getErrorLabel();
@@ -132,10 +131,6 @@ public class MainFrame extends JFrame implements MainFrameCallback {
 
                     repo.setLoggedInUserId(currentId);
                     repo.setLoggedInUsersLastOrder();
-                    OrderEntry lastOrder = repo.getLoggedInUsersLastOrder();
-
-                    System.out.println(currentId);
-                    System.out.println(lastOrder.getCustomer().getFirst_name());
 
                     userField.setText("");
                     passField.setText("");
@@ -145,21 +140,23 @@ public class MainFrame extends JFrame implements MainFrameCallback {
                 }
             }
             case 11 -> {
-                repo.loadStockEntries();
                 repo.loadShoes();
+                repo.loadStockEntries();
+                repo.loadOrders();
+                repo.loadShoppingCart();
+                repo.loadStockAmount();
+
                 List<String> list = shopPanel.getFilterPanel().getSelectedItems();
                 Map<Shoe, Integer> orders = repo.getCurrentUserOrder();
 
                 SwingUtilities.invokeLater(() -> {
                     shopPanel.getListPanel().refresh(list, 1);
-                    shopPanel.getCartPanel().refresh(repo.getCurrentUserOrder());
+                    if(text.equalsIgnoreCase("in")) {
+                        shopPanel.getCartPanel().refresh(repo.getCurrentUserOrder());
+                    }
             });
-
             int sum = orders.entrySet().stream().map((k -> k.getKey().getPrice() * k.getValue())).mapToInt(a -> a).sum();
-            System.out.println(sum);
             shopPanel.setCartSumText(String.valueOf(sum));
-
-            System.out.println("refreshed");
         }
         case 12 -> shopPanel.setErrorMessageText(text);
         default -> System.out.println("nothing was performed");
