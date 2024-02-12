@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Reporter implements FilterInterface {
-
     private final Repository repo;
 
     public Reporter(Repository repo) {
