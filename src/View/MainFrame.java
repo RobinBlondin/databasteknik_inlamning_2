@@ -37,26 +37,10 @@ public class MainFrame extends JFrame implements MainFrameCallback {
         cards.add(reportPanel, "report");
 
         cardLayout = (CardLayout) cards.getLayout();
-        cardLayout.show(cards, "login");
+        cardLayout.show(cards, "shop");
 
         this.getContentPane().add(cards);
         this.setVisible(true);
-    }
-
-    public CardLayout getCardLayout() {
-        return cardLayout;
-    }
-
-    public ShopPanel getShopPanel() {
-        return shopPanel;
-    }
-
-    public LoginPanel getLoginPanel() {
-        return loginPanel;
-    }
-
-    public ReportPanel getReportPanel() {
-        return reportPanel;
     }
 
     public JPanel getCards() {
@@ -65,10 +49,6 @@ public class MainFrame extends JFrame implements MainFrameCallback {
 
     public Reporter getReporter() {
         return reporter;
-    }
-
-    public Repository getRepo() {
-        return repo;
     }
 
     @Override
@@ -116,25 +96,12 @@ public class MainFrame extends JFrame implements MainFrameCallback {
 
                 shopPanel.getCartPanel().refresh(repo.getCurrentUserOrder());
 
-                boolean isValidUser = repo
-                        .getCustomers()
-                        .stream()
-                        .filter(user -> user.getEmail().equals(userField.getText()))
-                        .anyMatch(pass -> pass.getPassword().equals(passField.getText()));
-
-                if (isValidUser) {
-                    cardLayout.show(getCards(), "shop");
+                if (isValidUser(userField.getText(), passField.getText())) {
                     List<String> list = reporter.filterShoes("", "", "", "", "");
+
+                    cardLayout.show(getCards(), "shop");
                     shopPanel.getListPanel().refresh(list, 1);
-
-                    int currentId = repo.getCustomers()
-                            .stream()
-                            .filter(user -> user.getEmail().equals(userField.getText()))
-                            .map(Customer::getId)
-                            .toList()
-                            .getFirst();
-
-                    repo.setLoggedInUserId(currentId);
+                    repo.setLoggedInUserId(userField.getText());
                     repo.setLoggedInUsersLastOrder();
 
                     userField.setText("");
@@ -156,17 +123,21 @@ public class MainFrame extends JFrame implements MainFrameCallback {
 
                 SwingUtilities.invokeLater(() -> {
                     shopPanel.getListPanel().refresh(list, 1);
-                    if(text.equalsIgnoreCase("in")) {
+                    if (text.equalsIgnoreCase("in")) {
                         shopPanel.getCartPanel().refresh(repo.getCurrentUserOrder());
                     }
-            });
-            int sum = orders.entrySet().stream().map((k -> k.getKey().getPrice() * k.getValue())).mapToInt(a -> a).sum();
-            shopPanel.setCartSumText(String.valueOf(sum));
+                });
+                int sum = orders.entrySet().stream().map((k -> k.getKey().getPrice() * k.getValue())).mapToInt(a -> a).sum();
+                shopPanel.setCartSumText(String.valueOf(sum));
+            }
+            case 12 -> shopPanel.setErrorMessageText(text);
+            default -> System.out.println("nothing was performed");
         }
-        case 12 -> shopPanel.setErrorMessageText(text);
-        default -> System.out.println("nothing was performed");
-
     }
-}
 
+    private boolean isValidUser(String userName, String password) {
+        return repo.getCustomers().stream()
+                .filter(user -> user.getEmail().equals(userName))
+                .anyMatch(pass -> pass.getPassword().equals(password));
+    }
 }

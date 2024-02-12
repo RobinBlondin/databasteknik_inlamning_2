@@ -40,7 +40,6 @@ public class CartButton extends JButton {
                     orders.put(orderedShoe, 1);
                 }
             }
-
             callback.onButtonClicked(11, inStock);
         });
         this.setVisible(true);
