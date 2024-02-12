@@ -316,8 +316,12 @@ public class Repository {
         return loggedInUserId;
     }
 
-    public void setLoggedInUserId(int loggedInUserId) {
-        this.loggedInUserId = loggedInUserId;
+    public void setLoggedInUserId(String email) {
+        loggedInUserId = customers.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .map(Customer::getId)
+                .toList()
+                .getFirst();
     }
 
     public OrderEntry getLoggedInUsersLastOrder() {
